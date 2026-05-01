@@ -1,0 +1,3 @@
+requests>=2.31.0
+pyaxmlparser>=0.3.24
+androguard==3.3.5
