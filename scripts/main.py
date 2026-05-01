@@ -162,20 +162,43 @@ def build_release_body(
     category    = info.get("category", "Android App")
 
     def arch_label(fname: str) -> str:
+        """Human-readable architecture label from filename."""
         fl = fname.lower()
-        if "-universal" in fl: return "Universal (all architectures)"
-        if "-arm64"     in fl: return "ARM 64-bit · arm64-v8a (modern phones)"
-        if "-arm"       in fl: return "ARM 32-bit · armeabi-v7a"
-        if "-x64"       in fl: return "x86 64-bit"
-        if "-x86"       in fl: return "x86 32-bit"
-        return "Universal / Pure-Java"
+        if "-universal" in fl:
+            return "Universal · all architectures"
+        if "-arm64" in fl:
+            return "ARM 64-bit · arm64-v8a ⭐ Recommended"
+        if "-arm" in fl:
+            return "ARM 32-bit · armeabi-v7a"
+        if "-x64" in fl:
+            return "x86 64-bit · x86_64"
+        if "-x86" in fl:
+            return "x86 32-bit"
+        return "Universal · Pure-Java (all devices)"
+
+    def install_note(fname: str) -> str:
+        fl = fname.lower()
+        if "-arm64" in fl:
+            return "Best for most modern Android phones (2016+)"
+        if "-arm" in fl:
+            return "For older 32-bit ARM phones"
+        if "-x64" in fl:
+            return "For 64-bit x86 devices and modern emulators"
+        if "-x86" in fl:
+            return "For older 32-bit x86 devices and emulators"
+        if "-universal" in fl:
+            return "Works on any device; largest file size"
+        return "Works on all devices"
 
     rows = "\n".join(
-        f"| `{f}` | {arch_label(f)} |" for f in sorted(asset_names)
+        f"| [`{f}`]"
+        f"(https://github.com/nOneCode4u/mixplorer-releases-google/releases/download/{app_name}-v{version_name}/{f})"
+        f" | {arch_label(f)} | {install_note(f)} |"
+        for f in sorted(asset_names)
     )
 
     return f"""\
-## {icon} {display} v{version_name}
+## {icon} {display}
 
 {description}
 
@@ -183,32 +206,17 @@ def build_release_body(
 
 ### Download
 
-Choose the APK that matches your device:
-
-| File | Architecture |
-|------|-------------|
+| File | Architecture | Notes |
+|------|-------------|-------|
 {rows}
 
 > **Not sure which to choose?**  
-> Download the **`-arm64`** variant — it works on virtually all modern Android smartphones (2016 and later).  
-> If arm64 is not listed, use the **Universal / no-suffix** APK.
+> Download **`-arm64`** — it works on virtually all Android phones made since 2016.  
+> If `-arm64` is not listed, download the variant with no suffix (Universal / Pure-Java).
 
 ---
 
-### Architecture Guide
-
-| Suffix | Devices |
-|--------|---------|
-| *(none)* | Universal — all devices (pure Java, no native libs) |
-| `-arm` | 32-bit ARM phones (older devices) |
-| `-arm64` | 64-bit ARM phones (recommended for most users) |
-| `-x86` | 32-bit Intel/AMD Android (older emulators) |
-| `-x64` | 64-bit Intel/AMD Android (modern emulators, Chromebooks) |
-| `-universal` | Fat APK — all architectures in one file (largest size) |
-
----
-
-*Category: {category} · Automatically mirrored from the developer's official release folder.*
+*Category: {category} · Source: Official Google Drive · Mirrored automatically.*
 """
 
 
