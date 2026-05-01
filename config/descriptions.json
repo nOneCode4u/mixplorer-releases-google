@@ -1,0 +1,44 @@
+{
+  "MiXplorer": {
+    "display_name": "MiXplorer",
+    "description": "MiXplorer is a fast, smooth, and feature-rich file manager for Android. It supports dual-pane browsing, cloud storage (Google Drive, Dropbox, OneDrive, FTP, SFTP, SMB), archives, media playback, and extensive customisation. Extended through a rich ecosystem of add-on plugins.",
+    "icon": "📁",
+    "category": "File Manager"
+  },
+  "MiX_Archive": {
+    "display_name": "MiX Archive",
+    "description": "Archive plugin for MiXplorer. Adds full support for ZIP, RAR, RAR5, 7z, TAR, GZ, BZ2, XZ, and more — browse, extract, and create archives directly inside MiXplorer. Requires MiXplorer to be installed.",
+    "icon": "🗜️",
+    "category": "MiXplorer Plugin"
+  },
+  "MiX_Codecs": {
+    "display_name": "MiX Codecs",
+    "description": "Codec plugin for MiXplorer. Extends the built-in media player with additional audio and video decoding support, enabling playback of formats not natively supported by the system. Requires MiXplorer to be installed.",
+    "icon": "🎵",
+    "category": "MiXplorer Plugin"
+  },
+  "MiX_Encrypt": {
+    "display_name": "MiX Encrypt",
+    "description": "Encryption plugin for MiXplorer. Provides strong file encryption and decryption directly from within MiXplorer. Protect sensitive files with industry-standard cryptographic algorithms. Requires MiXplorer to be installed.",
+    "icon": "🔐",
+    "category": "MiXplorer Plugin"
+  },
+  "MiX_Image": {
+    "display_name": "MiX Image",
+    "description": "Image viewer plugin for MiXplorer. Adds support for a wide range of image formats with smooth zoom, pan, and gallery navigation. Includes basic image editing capabilities. Requires MiXplorer to be installed.",
+    "icon": "🖼️",
+    "category": "MiXplorer Plugin"
+  },
+  "MiX_PDF": {
+    "display_name": "MiX PDF",
+    "description": "PDF viewer plugin for MiXplorer. Render and navigate PDF documents directly inside MiXplorer without switching to a separate app. Supports text selection, zoom, and page navigation. Requires MiXplorer to be installed.",
+    "icon": "📄",
+    "category": "MiXplorer Plugin"
+  },
+  "MiX_Tagger": {
+    "display_name": "MiX Tagger",
+    "description": "Audio tag editor plugin for MiXplorer. Edit ID3v1/v2, Vorbis, APE, and other metadata tags for MP3, FLAC, OGG, M4A, and more directly within MiXplorer. Supports batch editing and artwork embedding. Requires MiXplorer to be installed.",
+    "icon": "🏷️",
+    "category": "MiXplorer Plugin"
+  }
+}
