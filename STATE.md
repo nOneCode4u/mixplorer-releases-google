@@ -4,9 +4,9 @@
 
 | Key | Value |
 |-----|-------|
-| **Last Updated** | Never |
-| **Last Status**  | Not yet run |
-| **Details**      | Initial state — pipeline has not executed yet |
+| **Last Updated** | 2026-05-01 11:10:18 UTC |
+| **Last Status**  | Success |
+| **Details**      | Released=7  Skipped=0  Failed=0 |
 
 ---
 
