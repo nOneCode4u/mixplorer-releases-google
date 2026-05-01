@@ -1,0 +1,358 @@
+2026-05-01 16:30:55 [INFO    ] main                 ============================================================
+2026-05-01 16:30:55 [INFO    ] main                 APK Update Pipeline — Start
+2026-05-01 16:30:55 [INFO    ] main                   Repository : nOneCode4u/mixplorer-releases-google
+2026-05-01 16:30:55 [INFO    ] main                   Force all  : False
+2026-05-01 16:30:55 [INFO    ] main                   Debug      : False
+2026-05-01 16:30:55 [INFO    ] main                 ============================================================
+2026-05-01 16:30:55 [INFO    ] main                 Workflow state: Running
+2026-05-01 16:30:55 [INFO    ] main                 Loaded 0 manual override(s)
+2026-05-01 16:30:55 [INFO    ] main                 Previously released apps: ['MiX_Archive', 'MiX_Encrypt', 'MiX_Image', 'MiX_PDF', 'MiX_Player_Codecs', 'MiX_Tagger', 'MiXplorer-v6.70.3']
+2026-05-01 16:30:56 [DEBUG   ] drive_client         list_folder(1BfeK39boriHy-9q76eXLLqbCwfV17-Gv): 7 items
+2026-05-01 16:30:56 [INFO    ] main                 Drive app folders: ['MiX Archive', 'MiX Encrypt', 'MiX Image', 'MiX PDF', 'MiX Player Codecs', 'MiX Tagger', 'MiXplorer-v6.70.3']
+2026-05-01 16:30:56 [INFO    ] main                 ──────────────────────────────────────────────────
+2026-05-01 16:30:56 [INFO    ] main                 App: MiX_Archive  (Drive folder: MiX Archive)
+2026-05-01 16:30:57 [DEBUG   ] drive_client         list_folder(1HmXsotMG4qYVARm0cPSZdom10_NN5QZw): 4 items
+2026-05-01 16:30:57 [INFO    ] main                 Found 4 APK(s): ['MiXArchive_B2602261-arm.apk', 'MiXArchive_B2602262-arm64.apk', 'MiXArchive_B2602263-x86.apk', 'MiXArchive_B2602264-x64.apk']
+2026-05-01 16:30:57 [INFO    ] drive_client         Downloading MiXArchive_B2602261-arm.apk (attempt 1/3) …
+2026-05-01 16:30:57 [INFO    ] drive_client         Downloaded MiXArchive_B2602261-arm.apk (1,465,566 bytes)
+2026-05-01 16:30:57 [INFO    ] drive_client         Downloading MiXArchive_B2602262-arm64.apk (attempt 1/3) …
+2026-05-01 16:30:58 [INFO    ] drive_client         Downloaded MiXArchive_B2602262-arm64.apk (1,654,079 bytes)
+2026-05-01 16:30:58 [INFO    ] drive_client         Downloading MiXArchive_B2602263-x86.apk (attempt 1/3) …
+2026-05-01 16:30:58 [INFO    ] drive_client         Downloaded MiXArchive_B2602263-x86.apk (1,656,499 bytes)
+2026-05-01 16:30:58 [INFO    ] drive_client         Downloading MiXArchive_B2602264-x64.apk (attempt 1/3) …
+2026-05-01 16:30:59 [INFO    ] drive_client         Downloaded MiXArchive_B2602264-x64.apk (1,698,660 bytes)
+2026-05-01 16:30:59 [INFO    ] apk_extractor        Extracting version from MiXArchive_B2602261-arm.apk …
+2026-05-01 16:30:59 [DEBUG   ] apk_extractor        [aapt] vn=3.20  vc=2602261  pkg=com.mixplorer.addon.archive
+2026-05-01 16:30:59 [WARNING ] apk_extractor        pyaxmlparser error on MiXArchive_B2602261-arm.apk: 'APK' object has no attribute 'get_app_version'
+2026-05-01 16:30:59 [WARNING ] apk_extractor        Only 1 of 2 fast methods succeeded for MiXArchive_B2602261-arm.apk. Running tiebreaker.
+2026-05-01 16:30:59 [WARNING ] androguard.core.api_specific_resources Requested API level 36 is larger than maximum we have, returning API level 28 instead.
+2026-05-01 16:30:59 [DEBUG   ] apk_extractor        [androguard] vn=3.20  vc=2602261  pkg=com.mixplorer.addon.archive
+2026-05-01 16:30:59 [DEBUG   ] apk_extractor        arch(MiXArchive_B2602261-arm.apk) = arm  (lib dirs found: {'arm'})
+2026-05-01 16:30:59 [INFO    ] apk_extractor        ✓ MiXArchive_B2602261-arm.apk: vn=3.20  vc=2602261  arch=arm  confidence=high  methods=['aapt', 'androguard']
+2026-05-01 16:30:59 [INFO    ] apk_extractor        Extracting version from MiXArchive_B2602262-arm64.apk …
+2026-05-01 16:30:59 [DEBUG   ] apk_extractor        [aapt] vn=3.20  vc=2602262  pkg=com.mixplorer.addon.archive
+2026-05-01 16:30:59 [WARNING ] apk_extractor        pyaxmlparser error on MiXArchive_B2602262-arm64.apk: 'APK' object has no attribute 'get_app_version'
+2026-05-01 16:30:59 [WARNING ] apk_extractor        Only 1 of 2 fast methods succeeded for MiXArchive_B2602262-arm64.apk. Running tiebreaker.
+2026-05-01 16:30:59 [WARNING ] androguard.core.api_specific_resources Requested API level 36 is larger than maximum we have, returning API level 28 instead.
+2026-05-01 16:30:59 [DEBUG   ] apk_extractor        [androguard] vn=3.20  vc=2602262  pkg=com.mixplorer.addon.archive
+2026-05-01 16:30:59 [DEBUG   ] apk_extractor        arch(MiXArchive_B2602262-arm64.apk) = arm64  (lib dirs found: {'arm64'})
+2026-05-01 16:30:59 [INFO    ] apk_extractor        ✓ MiXArchive_B2602262-arm64.apk: vn=3.20  vc=2602262  arch=arm64  confidence=high  methods=['aapt', 'androguard']
+2026-05-01 16:30:59 [INFO    ] apk_extractor        Extracting version from MiXArchive_B2602263-x86.apk …
+2026-05-01 16:30:59 [DEBUG   ] apk_extractor        [aapt] vn=3.20  vc=2602263  pkg=com.mixplorer.addon.archive
+2026-05-01 16:30:59 [WARNING ] apk_extractor        pyaxmlparser error on MiXArchive_B2602263-x86.apk: 'APK' object has no attribute 'get_app_version'
+2026-05-01 16:30:59 [WARNING ] apk_extractor        Only 1 of 2 fast methods succeeded for MiXArchive_B2602263-x86.apk. Running tiebreaker.
+2026-05-01 16:30:59 [WARNING ] androguard.core.api_specific_resources Requested API level 36 is larger than maximum we have, returning API level 28 instead.
+2026-05-01 16:30:59 [DEBUG   ] apk_extractor        [androguard] vn=3.20  vc=2602263  pkg=com.mixplorer.addon.archive
+2026-05-01 16:30:59 [DEBUG   ] apk_extractor        arch(MiXArchive_B2602263-x86.apk) = x86  (lib dirs found: {'x86'})
+2026-05-01 16:30:59 [INFO    ] apk_extractor        ✓ MiXArchive_B2602263-x86.apk: vn=3.20  vc=2602263  arch=x86  confidence=high  methods=['aapt', 'androguard']
+2026-05-01 16:30:59 [INFO    ] apk_extractor        Extracting version from MiXArchive_B2602264-x64.apk …
+2026-05-01 16:30:59 [DEBUG   ] apk_extractor        [aapt] vn=3.20  vc=2602264  pkg=com.mixplorer.addon.archive
+2026-05-01 16:30:59 [WARNING ] apk_extractor        pyaxmlparser error on MiXArchive_B2602264-x64.apk: 'APK' object has no attribute 'get_app_version'
+2026-05-01 16:30:59 [WARNING ] apk_extractor        Only 1 of 2 fast methods succeeded for MiXArchive_B2602264-x64.apk. Running tiebreaker.
+2026-05-01 16:30:59 [WARNING ] androguard.core.api_specific_resources Requested API level 36 is larger than maximum we have, returning API level 28 instead.
+2026-05-01 16:30:59 [DEBUG   ] apk_extractor        [androguard] vn=3.20  vc=2602264  pkg=com.mixplorer.addon.archive
+2026-05-01 16:30:59 [DEBUG   ] apk_extractor        arch(MiXArchive_B2602264-x64.apk) = x64  (lib dirs found: {'x64'})
+2026-05-01 16:30:59 [INFO    ] apk_extractor        ✓ MiXArchive_B2602264-x64.apk: vn=3.20  vc=2602264  arch=x64  confidence=high  methods=['aapt', 'androguard']
+2026-05-01 16:30:59 [INFO    ] main                   MiX_Archive v3.20 already released — nothing to do.
+2026-05-01 16:30:59 [INFO    ] main                 ○ No update: MiX_Archive
+2026-05-01 16:30:59 [INFO    ] main                 ──────────────────────────────────────────────────
+2026-05-01 16:30:59 [INFO    ] main                 App: MiX_Encrypt  (Drive folder: MiX Encrypt)
+2026-05-01 16:31:00 [DEBUG   ] drive_client         list_folder(16JkuWnXk7W4oM5WxCIbZS1U0grnw2BA-): 1 items
+2026-05-01 16:31:00 [INFO    ] main                 Found 1 APK(s): ['MiXEncrypt_B2512251-universal.apk']
+2026-05-01 16:31:00 [INFO    ] drive_client         Downloading MiXEncrypt_B2512251-universal.apk (attempt 1/3) …
+2026-05-01 16:31:00 [INFO    ] drive_client         Downloaded MiXEncrypt_B2512251-universal.apk (57,451 bytes)
+2026-05-01 16:31:00 [INFO    ] apk_extractor        Extracting version from MiXEncrypt_B2512251-universal.apk …
+2026-05-01 16:31:00 [DEBUG   ] apk_extractor        [aapt] vn=1.0  vc=2512251  pkg=com.mixplorer.addon.encrypt
+2026-05-01 16:31:00 [WARNING ] apk_extractor        pyaxmlparser error on MiXEncrypt_B2512251-universal.apk: 'APK' object has no attribute 'get_app_version'
+2026-05-01 16:31:00 [WARNING ] apk_extractor        Only 1 of 2 fast methods succeeded for MiXEncrypt_B2512251-universal.apk. Running tiebreaker.
+2026-05-01 16:31:00 [WARNING ] androguard.core.api_specific_resources Requested API level 36 is larger than maximum we have, returning API level 28 instead.
+2026-05-01 16:31:00 [DEBUG   ] apk_extractor        [androguard] vn=1.0  vc=2512251  pkg=com.mixplorer.addon.encrypt
+2026-05-01 16:31:00 [DEBUG   ] apk_extractor        arch(MiXEncrypt_B2512251-universal.apk) = java  (lib dirs found: none)
+2026-05-01 16:31:00 [INFO    ] apk_extractor        ✓ MiXEncrypt_B2512251-universal.apk: vn=1.0  vc=2512251  arch=java  confidence=high  methods=['aapt', 'androguard']
+2026-05-01 16:31:00 [INFO    ] main                   MiX_Encrypt v1.0 already released — nothing to do.
+2026-05-01 16:31:00 [INFO    ] main                 ○ No update: MiX_Encrypt
+2026-05-01 16:31:00 [INFO    ] main                 ──────────────────────────────────────────────────
+2026-05-01 16:31:00 [INFO    ] main                 App: MiX_Image  (Drive folder: MiX Image)
+2026-05-01 16:31:01 [DEBUG   ] drive_client         list_folder(1UKzlyiBcgRQbh1waaduSLrh4Q8TbTrax): 5 items
+2026-05-01 16:31:01 [INFO    ] main                 Found 5 APK(s): ['MiXImage_B2602230.apk', 'MiXImage_B2602231-arm.apk', 'MiXImage_B2602232-arm64.apk', 'MiXImage_B2602233-x86.apk', 'MiXImage_B2602234-x64.apk']
+2026-05-01 16:31:01 [INFO    ] drive_client         Downloading MiXImage_B2602230.apk (attempt 1/3) …
+2026-05-01 16:31:02 [INFO    ] drive_client         Downloaded MiXImage_B2602230.apk (11,108,649 bytes)
+2026-05-01 16:31:02 [INFO    ] drive_client         Downloading MiXImage_B2602231-arm.apk (attempt 1/3) …
+2026-05-01 16:31:03 [INFO    ] drive_client         Downloaded MiXImage_B2602231-arm.apk (2,411,016 bytes)
+2026-05-01 16:31:03 [INFO    ] drive_client         Downloading MiXImage_B2602232-arm64.apk (attempt 1/3) …
+2026-05-01 16:31:04 [INFO    ] drive_client         Downloaded MiXImage_B2602232-arm64.apk (3,146,009 bytes)
+2026-05-01 16:31:04 [INFO    ] drive_client         Downloading MiXImage_B2602233-x86.apk (attempt 1/3) …
+2026-05-01 16:31:05 [INFO    ] drive_client         Downloaded MiXImage_B2602233-x86.apk (2,630,043 bytes)
+2026-05-01 16:31:05 [INFO    ] drive_client         Downloading MiXImage_B2602234-x64.apk (attempt 1/3) …
+2026-05-01 16:31:05 [INFO    ] drive_client         Downloaded MiXImage_B2602234-x64.apk (3,370,477 bytes)
+2026-05-01 16:31:05 [INFO    ] apk_extractor        Extracting version from MiXImage_B2602230.apk …
+2026-05-01 16:31:05 [DEBUG   ] apk_extractor        [aapt] vn=2.16  vc=2602230  pkg=com.mixplorer.addon.image
+2026-05-01 16:31:05 [WARNING ] apk_extractor        pyaxmlparser error on MiXImage_B2602230.apk: 'APK' object has no attribute 'get_app_version'
+2026-05-01 16:31:05 [WARNING ] apk_extractor        Only 1 of 2 fast methods succeeded for MiXImage_B2602230.apk. Running tiebreaker.
+2026-05-01 16:31:06 [WARNING ] androguard.core.api_specific_resources Requested API level 36 is larger than maximum we have, returning API level 28 instead.
+2026-05-01 16:31:06 [DEBUG   ] apk_extractor        [androguard] vn=2.16  vc=2602230  pkg=com.mixplorer.addon.image
+2026-05-01 16:31:06 [DEBUG   ] apk_extractor        arch(MiXImage_B2602230.apk) = universal  (lib dirs found: {'arm', 'x86', 'x64', 'arm64'})
+2026-05-01 16:31:06 [INFO    ] apk_extractor        ✓ MiXImage_B2602230.apk: vn=2.16  vc=2602230  arch=universal  confidence=high  methods=['aapt', 'androguard']
+2026-05-01 16:31:06 [INFO    ] apk_extractor        Extracting version from MiXImage_B2602231-arm.apk …
+2026-05-01 16:31:06 [DEBUG   ] apk_extractor        [aapt] vn=2.16  vc=2602231  pkg=com.mixplorer.addon.image
+2026-05-01 16:31:06 [WARNING ] apk_extractor        pyaxmlparser error on MiXImage_B2602231-arm.apk: 'APK' object has no attribute 'get_app_version'
+2026-05-01 16:31:06 [WARNING ] apk_extractor        Only 1 of 2 fast methods succeeded for MiXImage_B2602231-arm.apk. Running tiebreaker.
+2026-05-01 16:31:06 [WARNING ] androguard.core.api_specific_resources Requested API level 36 is larger than maximum we have, returning API level 28 instead.
+2026-05-01 16:31:06 [DEBUG   ] apk_extractor        [androguard] vn=2.16  vc=2602231  pkg=com.mixplorer.addon.image
+2026-05-01 16:31:06 [DEBUG   ] apk_extractor        arch(MiXImage_B2602231-arm.apk) = arm  (lib dirs found: {'arm'})
+2026-05-01 16:31:06 [INFO    ] apk_extractor        ✓ MiXImage_B2602231-arm.apk: vn=2.16  vc=2602231  arch=arm  confidence=high  methods=['aapt', 'androguard']
+2026-05-01 16:31:06 [INFO    ] apk_extractor        Extracting version from MiXImage_B2602232-arm64.apk …
+2026-05-01 16:31:06 [DEBUG   ] apk_extractor        [aapt] vn=2.16  vc=2602232  pkg=com.mixplorer.addon.image
+2026-05-01 16:31:06 [WARNING ] apk_extractor        pyaxmlparser error on MiXImage_B2602232-arm64.apk: 'APK' object has no attribute 'get_app_version'
+2026-05-01 16:31:06 [WARNING ] apk_extractor        Only 1 of 2 fast methods succeeded for MiXImage_B2602232-arm64.apk. Running tiebreaker.
+2026-05-01 16:31:06 [WARNING ] androguard.core.api_specific_resources Requested API level 36 is larger than maximum we have, returning API level 28 instead.
+2026-05-01 16:31:06 [DEBUG   ] apk_extractor        [androguard] vn=2.16  vc=2602232  pkg=com.mixplorer.addon.image
+2026-05-01 16:31:06 [DEBUG   ] apk_extractor        arch(MiXImage_B2602232-arm64.apk) = arm64  (lib dirs found: {'arm64'})
+2026-05-01 16:31:06 [INFO    ] apk_extractor        ✓ MiXImage_B2602232-arm64.apk: vn=2.16  vc=2602232  arch=arm64  confidence=high  methods=['aapt', 'androguard']
+2026-05-01 16:31:06 [INFO    ] apk_extractor        Extracting version from MiXImage_B2602233-x86.apk …
+2026-05-01 16:31:06 [DEBUG   ] apk_extractor        [aapt] vn=2.16  vc=2602233  pkg=com.mixplorer.addon.image
+2026-05-01 16:31:06 [WARNING ] apk_extractor        pyaxmlparser error on MiXImage_B2602233-x86.apk: 'APK' object has no attribute 'get_app_version'
+2026-05-01 16:31:06 [WARNING ] apk_extractor        Only 1 of 2 fast methods succeeded for MiXImage_B2602233-x86.apk. Running tiebreaker.
+2026-05-01 16:31:06 [WARNING ] androguard.core.api_specific_resources Requested API level 36 is larger than maximum we have, returning API level 28 instead.
+2026-05-01 16:31:06 [DEBUG   ] apk_extractor        [androguard] vn=2.16  vc=2602233  pkg=com.mixplorer.addon.image
+2026-05-01 16:31:06 [DEBUG   ] apk_extractor        arch(MiXImage_B2602233-x86.apk) = x86  (lib dirs found: {'x86'})
+2026-05-01 16:31:06 [INFO    ] apk_extractor        ✓ MiXImage_B2602233-x86.apk: vn=2.16  vc=2602233  arch=x86  confidence=high  methods=['aapt', 'androguard']
+2026-05-01 16:31:06 [INFO    ] apk_extractor        Extracting version from MiXImage_B2602234-x64.apk …
+2026-05-01 16:31:06 [DEBUG   ] apk_extractor        [aapt] vn=2.16  vc=2602234  pkg=com.mixplorer.addon.image
+2026-05-01 16:31:06 [WARNING ] apk_extractor        pyaxmlparser error on MiXImage_B2602234-x64.apk: 'APK' object has no attribute 'get_app_version'
+2026-05-01 16:31:06 [WARNING ] apk_extractor        Only 1 of 2 fast methods succeeded for MiXImage_B2602234-x64.apk. Running tiebreaker.
+2026-05-01 16:31:06 [WARNING ] androguard.core.api_specific_resources Requested API level 36 is larger than maximum we have, returning API level 28 instead.
+2026-05-01 16:31:06 [DEBUG   ] apk_extractor        [androguard] vn=2.16  vc=2602234  pkg=com.mixplorer.addon.image
+2026-05-01 16:31:06 [DEBUG   ] apk_extractor        arch(MiXImage_B2602234-x64.apk) = x64  (lib dirs found: {'x64'})
+2026-05-01 16:31:06 [INFO    ] apk_extractor        ✓ MiXImage_B2602234-x64.apk: vn=2.16  vc=2602234  arch=x64  confidence=high  methods=['aapt', 'androguard']
+2026-05-01 16:31:06 [INFO    ] main                   MiX_Image v2.16 already released — nothing to do.
+2026-05-01 16:31:06 [INFO    ] main                 ○ No update: MiX_Image
+2026-05-01 16:31:06 [INFO    ] main                 ──────────────────────────────────────────────────
+2026-05-01 16:31:06 [INFO    ] main                 App: MiX_PDF  (Drive folder: MiX PDF)
+2026-05-01 16:31:06 [DEBUG   ] drive_client         list_folder(1cdLK7Mz-7C0gLaYHlhqsMlgpgYDrbsCh): 5 items
+2026-05-01 16:31:06 [INFO    ] main                 Found 5 APK(s): ['MiXPDF_B2602260.apk', 'MiXPDF_B2602261-arm.apk', 'MiXPDF_B2602262-arm64.apk', 'MiXPDF_B2602263-x86.apk', 'MiXPDF_B2602264-x64.apk']
+2026-05-01 16:31:06 [INFO    ] drive_client         Downloading MiXPDF_B2602260.apk (attempt 1/3) …
+2026-05-01 16:31:08 [INFO    ] drive_client         Downloaded MiXPDF_B2602260.apk (10,777,999 bytes)
+2026-05-01 16:31:08 [INFO    ] drive_client         Downloading MiXPDF_B2602261-arm.apk (attempt 1/3) …
+2026-05-01 16:31:08 [INFO    ] drive_client         Downloaded MiXPDF_B2602261-arm.apk (2,728,354 bytes)
+2026-05-01 16:31:08 [INFO    ] drive_client         Downloading MiXPDF_B2602262-arm64.apk (attempt 1/3) …
+2026-05-01 16:31:09 [INFO    ] drive_client         Downloaded MiXPDF_B2602262-arm64.apk (2,874,272 bytes)
+2026-05-01 16:31:09 [INFO    ] drive_client         Downloading MiXPDF_B2602263-x86.apk (attempt 1/3) …
+2026-05-01 16:31:10 [INFO    ] drive_client         Downloaded MiXPDF_B2602263-x86.apk (2,930,346 bytes)
+2026-05-01 16:31:10 [INFO    ] drive_client         Downloading MiXPDF_B2602264-x64.apk (attempt 1/3) …
+2026-05-01 16:31:11 [INFO    ] drive_client         Downloaded MiXPDF_B2602264-x64.apk (2,927,181 bytes)
+2026-05-01 16:31:11 [INFO    ] apk_extractor        Extracting version from MiXPDF_B2602260.apk …
+2026-05-01 16:31:11 [DEBUG   ] apk_extractor        [aapt] vn=1.19  vc=2602260  pkg=com.mixplorer.addon.pdf
+2026-05-01 16:31:11 [WARNING ] apk_extractor        pyaxmlparser error on MiXPDF_B2602260.apk: 'APK' object has no attribute 'get_app_version'
+2026-05-01 16:31:11 [WARNING ] apk_extractor        Only 1 of 2 fast methods succeeded for MiXPDF_B2602260.apk. Running tiebreaker.
+2026-05-01 16:31:11 [WARNING ] androguard.core.api_specific_resources Requested API level 36 is larger than maximum we have, returning API level 28 instead.
+2026-05-01 16:31:11 [DEBUG   ] apk_extractor        [androguard] vn=1.19  vc=2602260  pkg=com.mixplorer.addon.pdf
+2026-05-01 16:31:11 [DEBUG   ] apk_extractor        arch(MiXPDF_B2602260.apk) = universal  (lib dirs found: {'arm', 'x86', 'x64', 'arm64'})
+2026-05-01 16:31:11 [INFO    ] apk_extractor        ✓ MiXPDF_B2602260.apk: vn=1.19  vc=2602260  arch=universal  confidence=high  methods=['aapt', 'androguard']
+2026-05-01 16:31:11 [INFO    ] apk_extractor        Extracting version from MiXPDF_B2602261-arm.apk …
+2026-05-01 16:31:11 [DEBUG   ] apk_extractor        [aapt] vn=1.19  vc=2602261  pkg=com.mixplorer.addon.pdf
+2026-05-01 16:31:11 [WARNING ] apk_extractor        pyaxmlparser error on MiXPDF_B2602261-arm.apk: 'APK' object has no attribute 'get_app_version'
+2026-05-01 16:31:11 [WARNING ] apk_extractor        Only 1 of 2 fast methods succeeded for MiXPDF_B2602261-arm.apk. Running tiebreaker.
+2026-05-01 16:31:11 [WARNING ] androguard.core.api_specific_resources Requested API level 36 is larger than maximum we have, returning API level 28 instead.
+2026-05-01 16:31:12 [DEBUG   ] apk_extractor        [androguard] vn=1.19  vc=2602261  pkg=com.mixplorer.addon.pdf
+2026-05-01 16:31:12 [DEBUG   ] apk_extractor        arch(MiXPDF_B2602261-arm.apk) = arm  (lib dirs found: {'arm'})
+2026-05-01 16:31:12 [INFO    ] apk_extractor        ✓ MiXPDF_B2602261-arm.apk: vn=1.19  vc=2602261  arch=arm  confidence=high  methods=['aapt', 'androguard']
+2026-05-01 16:31:12 [INFO    ] apk_extractor        Extracting version from MiXPDF_B2602262-arm64.apk …
+2026-05-01 16:31:12 [DEBUG   ] apk_extractor        [aapt] vn=1.19  vc=2602262  pkg=com.mixplorer.addon.pdf
+2026-05-01 16:31:12 [WARNING ] apk_extractor        pyaxmlparser error on MiXPDF_B2602262-arm64.apk: 'APK' object has no attribute 'get_app_version'
+2026-05-01 16:31:12 [WARNING ] apk_extractor        Only 1 of 2 fast methods succeeded for MiXPDF_B2602262-arm64.apk. Running tiebreaker.
+2026-05-01 16:31:12 [WARNING ] androguard.core.api_specific_resources Requested API level 36 is larger than maximum we have, returning API level 28 instead.
+2026-05-01 16:31:13 [DEBUG   ] apk_extractor        [androguard] vn=1.19  vc=2602262  pkg=com.mixplorer.addon.pdf
+2026-05-01 16:31:13 [DEBUG   ] apk_extractor        arch(MiXPDF_B2602262-arm64.apk) = arm64  (lib dirs found: {'arm64'})
+2026-05-01 16:31:13 [INFO    ] apk_extractor        ✓ MiXPDF_B2602262-arm64.apk: vn=1.19  vc=2602262  arch=arm64  confidence=high  methods=['aapt', 'androguard']
+2026-05-01 16:31:13 [INFO    ] apk_extractor        Extracting version from MiXPDF_B2602263-x86.apk …
+2026-05-01 16:31:13 [DEBUG   ] apk_extractor        [aapt] vn=1.19  vc=2602263  pkg=com.mixplorer.addon.pdf
+2026-05-01 16:31:13 [WARNING ] apk_extractor        pyaxmlparser error on MiXPDF_B2602263-x86.apk: 'APK' object has no attribute 'get_app_version'
+2026-05-01 16:31:13 [WARNING ] apk_extractor        Only 1 of 2 fast methods succeeded for MiXPDF_B2602263-x86.apk. Running tiebreaker.
+2026-05-01 16:31:13 [WARNING ] androguard.core.api_specific_resources Requested API level 36 is larger than maximum we have, returning API level 28 instead.
+2026-05-01 16:31:13 [DEBUG   ] apk_extractor        [androguard] vn=1.19  vc=2602263  pkg=com.mixplorer.addon.pdf
+2026-05-01 16:31:13 [DEBUG   ] apk_extractor        arch(MiXPDF_B2602263-x86.apk) = x86  (lib dirs found: {'x86'})
+2026-05-01 16:31:13 [INFO    ] apk_extractor        ✓ MiXPDF_B2602263-x86.apk: vn=1.19  vc=2602263  arch=x86  confidence=high  methods=['aapt', 'androguard']
+2026-05-01 16:31:13 [INFO    ] apk_extractor        Extracting version from MiXPDF_B2602264-x64.apk …
+2026-05-01 16:31:13 [DEBUG   ] apk_extractor        [aapt] vn=1.19  vc=2602264  pkg=com.mixplorer.addon.pdf
+2026-05-01 16:31:13 [WARNING ] apk_extractor        pyaxmlparser error on MiXPDF_B2602264-x64.apk: 'APK' object has no attribute 'get_app_version'
+2026-05-01 16:31:13 [WARNING ] apk_extractor        Only 1 of 2 fast methods succeeded for MiXPDF_B2602264-x64.apk. Running tiebreaker.
+2026-05-01 16:31:13 [WARNING ] androguard.core.api_specific_resources Requested API level 36 is larger than maximum we have, returning API level 28 instead.
+2026-05-01 16:31:14 [DEBUG   ] apk_extractor        [androguard] vn=1.19  vc=2602264  pkg=com.mixplorer.addon.pdf
+2026-05-01 16:31:14 [DEBUG   ] apk_extractor        arch(MiXPDF_B2602264-x64.apk) = x64  (lib dirs found: {'x64'})
+2026-05-01 16:31:14 [INFO    ] apk_extractor        ✓ MiXPDF_B2602264-x64.apk: vn=1.19  vc=2602264  arch=x64  confidence=high  methods=['aapt', 'androguard']
+2026-05-01 16:31:14 [INFO    ] main                   MiX_PDF v1.19 already released — nothing to do.
+2026-05-01 16:31:14 [INFO    ] main                 ○ No update: MiX_PDF
+2026-05-01 16:31:14 [INFO    ] main                 ──────────────────────────────────────────────────
+2026-05-01 16:31:14 [INFO    ] main                 App: MiX_Player_Codecs  (Drive folder: MiX Player Codecs)
+2026-05-01 16:31:15 [DEBUG   ] drive_client         list_folder(1ws2n74i7XiAoDMqhQjXbzpGRovCV6C2i): 5 items
+2026-05-01 16:31:15 [INFO    ] main                 Found 5 APK(s): ['MiXCodecs_B2512131-universal.apk', 'MiXCodecs_B2512132-arm.apk', 'MiXCodecs_B2512133-arm64.apk', 'MiXCodecs_B2512134-x86.apk', 'MiXCodecs_B2512135-x64.apk']
+2026-05-01 16:31:15 [INFO    ] drive_client         Downloading MiXCodecs_B2512131-universal.apk (attempt 1/3) …
+2026-05-01 16:31:21 [INFO    ] drive_client         Downloaded MiXCodecs_B2512131-universal.apk (82,757,237 bytes)
+2026-05-01 16:31:21 [INFO    ] drive_client         Downloading MiXCodecs_B2512132-arm.apk (attempt 1/3) …
+2026-05-01 16:31:24 [INFO    ] drive_client         Downloaded MiXCodecs_B2512132-arm.apk (19,743,479 bytes)
+2026-05-01 16:31:24 [INFO    ] drive_client         Downloading MiXCodecs_B2512133-arm64.apk (attempt 1/3) …
+2026-05-01 16:31:26 [INFO    ] drive_client         Downloaded MiXCodecs_B2512133-arm64.apk (20,651,386 bytes)
+2026-05-01 16:31:26 [INFO    ] drive_client         Downloading MiXCodecs_B2512134-x86.apk (attempt 1/3) …
+2026-05-01 16:31:29 [INFO    ] drive_client         Downloaded MiXCodecs_B2512134-x86.apk (20,663,863 bytes)
+2026-05-01 16:31:29 [INFO    ] drive_client         Downloading MiXCodecs_B2512135-x64.apk (attempt 1/3) …
+2026-05-01 16:31:31 [INFO    ] drive_client         Downloaded MiXCodecs_B2512135-x64.apk (21,982,792 bytes)
+2026-05-01 16:31:31 [INFO    ] apk_extractor        Extracting version from MiXCodecs_B2512131-universal.apk …
+2026-05-01 16:31:31 [DEBUG   ] apk_extractor        [aapt] vn=2.9  vc=2512131  pkg=com.mixplorer.addon.codecs
+2026-05-01 16:31:31 [WARNING ] apk_extractor        pyaxmlparser error on MiXCodecs_B2512131-universal.apk: 'APK' object has no attribute 'get_app_version'
+2026-05-01 16:31:31 [WARNING ] apk_extractor        Only 1 of 2 fast methods succeeded for MiXCodecs_B2512131-universal.apk. Running tiebreaker.
+2026-05-01 16:31:31 [WARNING ] androguard.core.api_specific_resources Requested API level 36 is larger than maximum we have, returning API level 28 instead.
+2026-05-01 16:31:31 [DEBUG   ] apk_extractor        [androguard] vn=2.9  vc=2512131  pkg=com.mixplorer.addon.codecs
+2026-05-01 16:31:31 [DEBUG   ] apk_extractor        arch(MiXCodecs_B2512131-universal.apk) = universal  (lib dirs found: {'arm', 'x86', 'x64', 'arm64'})
+2026-05-01 16:31:31 [INFO    ] apk_extractor        ✓ MiXCodecs_B2512131-universal.apk: vn=2.9  vc=2512131  arch=universal  confidence=high  methods=['aapt', 'androguard']
+2026-05-01 16:31:31 [INFO    ] apk_extractor        Extracting version from MiXCodecs_B2512132-arm.apk …
+2026-05-01 16:31:31 [DEBUG   ] apk_extractor        [aapt] vn=2.9  vc=2512132  pkg=com.mixplorer.addon.codecs
+2026-05-01 16:31:31 [WARNING ] apk_extractor        pyaxmlparser error on MiXCodecs_B2512132-arm.apk: 'APK' object has no attribute 'get_app_version'
+2026-05-01 16:31:31 [WARNING ] apk_extractor        Only 1 of 2 fast methods succeeded for MiXCodecs_B2512132-arm.apk. Running tiebreaker.
+2026-05-01 16:31:31 [WARNING ] androguard.core.api_specific_resources Requested API level 36 is larger than maximum we have, returning API level 28 instead.
+2026-05-01 16:31:31 [DEBUG   ] apk_extractor        [androguard] vn=2.9  vc=2512132  pkg=com.mixplorer.addon.codecs
+2026-05-01 16:31:31 [DEBUG   ] apk_extractor        arch(MiXCodecs_B2512132-arm.apk) = arm  (lib dirs found: {'arm'})
+2026-05-01 16:31:31 [INFO    ] apk_extractor        ✓ MiXCodecs_B2512132-arm.apk: vn=2.9  vc=2512132  arch=arm  confidence=high  methods=['aapt', 'androguard']
+2026-05-01 16:31:31 [INFO    ] apk_extractor        Extracting version from MiXCodecs_B2512133-arm64.apk …
+2026-05-01 16:31:31 [DEBUG   ] apk_extractor        [aapt] vn=2.9  vc=2512133  pkg=com.mixplorer.addon.codecs
+2026-05-01 16:31:31 [WARNING ] apk_extractor        pyaxmlparser error on MiXCodecs_B2512133-arm64.apk: 'APK' object has no attribute 'get_app_version'
+2026-05-01 16:31:31 [WARNING ] apk_extractor        Only 1 of 2 fast methods succeeded for MiXCodecs_B2512133-arm64.apk. Running tiebreaker.
+2026-05-01 16:31:31 [WARNING ] androguard.core.api_specific_resources Requested API level 36 is larger than maximum we have, returning API level 28 instead.
+2026-05-01 16:31:32 [DEBUG   ] apk_extractor        [androguard] vn=2.9  vc=2512133  pkg=com.mixplorer.addon.codecs
+2026-05-01 16:31:32 [DEBUG   ] apk_extractor        arch(MiXCodecs_B2512133-arm64.apk) = arm64  (lib dirs found: {'arm64'})
+2026-05-01 16:31:32 [INFO    ] apk_extractor        ✓ MiXCodecs_B2512133-arm64.apk: vn=2.9  vc=2512133  arch=arm64  confidence=high  methods=['aapt', 'androguard']
+2026-05-01 16:31:32 [INFO    ] apk_extractor        Extracting version from MiXCodecs_B2512134-x86.apk …
+2026-05-01 16:31:32 [DEBUG   ] apk_extractor        [aapt] vn=2.9  vc=2512134  pkg=com.mixplorer.addon.codecs
+2026-05-01 16:31:32 [WARNING ] apk_extractor        pyaxmlparser error on MiXCodecs_B2512134-x86.apk: 'APK' object has no attribute 'get_app_version'
+2026-05-01 16:31:32 [WARNING ] apk_extractor        Only 1 of 2 fast methods succeeded for MiXCodecs_B2512134-x86.apk. Running tiebreaker.
+2026-05-01 16:31:32 [WARNING ] androguard.core.api_specific_resources Requested API level 36 is larger than maximum we have, returning API level 28 instead.
+2026-05-01 16:31:32 [DEBUG   ] apk_extractor        [androguard] vn=2.9  vc=2512134  pkg=com.mixplorer.addon.codecs
+2026-05-01 16:31:32 [DEBUG   ] apk_extractor        arch(MiXCodecs_B2512134-x86.apk) = x86  (lib dirs found: {'x86'})
+2026-05-01 16:31:32 [INFO    ] apk_extractor        ✓ MiXCodecs_B2512134-x86.apk: vn=2.9  vc=2512134  arch=x86  confidence=high  methods=['aapt', 'androguard']
+2026-05-01 16:31:32 [INFO    ] apk_extractor        Extracting version from MiXCodecs_B2512135-x64.apk …
+2026-05-01 16:31:32 [DEBUG   ] apk_extractor        [aapt] vn=2.9  vc=2512135  pkg=com.mixplorer.addon.codecs
+2026-05-01 16:31:32 [WARNING ] apk_extractor        pyaxmlparser error on MiXCodecs_B2512135-x64.apk: 'APK' object has no attribute 'get_app_version'
+2026-05-01 16:31:32 [WARNING ] apk_extractor        Only 1 of 2 fast methods succeeded for MiXCodecs_B2512135-x64.apk. Running tiebreaker.
+2026-05-01 16:31:32 [WARNING ] androguard.core.api_specific_resources Requested API level 36 is larger than maximum we have, returning API level 28 instead.
+2026-05-01 16:31:32 [DEBUG   ] apk_extractor        [androguard] vn=2.9  vc=2512135  pkg=com.mixplorer.addon.codecs
+2026-05-01 16:31:32 [DEBUG   ] apk_extractor        arch(MiXCodecs_B2512135-x64.apk) = x64  (lib dirs found: {'x64'})
+2026-05-01 16:31:32 [INFO    ] apk_extractor        ✓ MiXCodecs_B2512135-x64.apk: vn=2.9  vc=2512135  arch=x64  confidence=high  methods=['aapt', 'androguard']
+2026-05-01 16:31:32 [INFO    ] main                   MiX_Player_Codecs v2.9 already released — nothing to do.
+2026-05-01 16:31:32 [INFO    ] main                 ○ No update: MiX_Player_Codecs
+2026-05-01 16:31:32 [INFO    ] main                 ──────────────────────────────────────────────────
+2026-05-01 16:31:32 [INFO    ] main                 App: MiX_Tagger  (Drive folder: MiX Tagger)
+2026-05-01 16:31:32 [DEBUG   ] drive_client         list_folder(1U0-6e9LcJ_o7ImGeTddCcSOCVIW5FR52): 5 items
+2026-05-01 16:31:32 [INFO    ] main                 Found 5 APK(s): ['MiXTagger_B2602240.apk', 'MiXTagger_B2602241-arm.apk', 'MiXTagger_B2602242-arm64.apk', 'MiXTagger_B2602243-x86.apk', 'MiXTagger_B2602244-x64.apk']
+2026-05-01 16:31:32 [INFO    ] drive_client         Downloading MiXTagger_B2602240.apk (attempt 1/3) …
+2026-05-01 16:31:33 [INFO    ] drive_client         Downloaded MiXTagger_B2602240.apk (1,162,024 bytes)
+2026-05-01 16:31:33 [INFO    ] drive_client         Downloading MiXTagger_B2602241-arm.apk (attempt 1/3) …
+2026-05-01 16:31:34 [INFO    ] drive_client         Downloaded MiXTagger_B2602241-arm.apk (890,840 bytes)
+2026-05-01 16:31:34 [INFO    ] drive_client         Downloading MiXTagger_B2602242-arm64.apk (attempt 1/3) …
+2026-05-01 16:31:35 [INFO    ] drive_client         Downloaded MiXTagger_B2602242-arm64.apk (918,185 bytes)
+2026-05-01 16:31:35 [INFO    ] drive_client         Downloading MiXTagger_B2602243-x86.apk (attempt 1/3) …
+2026-05-01 16:31:36 [INFO    ] drive_client         Downloaded MiXTagger_B2602243-x86.apk (906,073 bytes)
+2026-05-01 16:31:36 [INFO    ] drive_client         Downloading MiXTagger_B2602244-x64.apk (attempt 1/3) …
+2026-05-01 16:31:36 [INFO    ] drive_client         Downloaded MiXTagger_B2602244-x64.apk (921,268 bytes)
+2026-05-01 16:31:36 [INFO    ] apk_extractor        Extracting version from MiXTagger_B2602240.apk …
+2026-05-01 16:31:36 [DEBUG   ] apk_extractor        [aapt] vn=1.11  vc=2602240  pkg=com.mixplorer.addon.tagger
+2026-05-01 16:31:36 [WARNING ] apk_extractor        pyaxmlparser error on MiXTagger_B2602240.apk: 'APK' object has no attribute 'get_app_version'
+2026-05-01 16:31:36 [WARNING ] apk_extractor        Only 1 of 2 fast methods succeeded for MiXTagger_B2602240.apk. Running tiebreaker.
+2026-05-01 16:31:36 [WARNING ] androguard.core.api_specific_resources Requested API level 36 is larger than maximum we have, returning API level 28 instead.
+2026-05-01 16:31:39 [DEBUG   ] apk_extractor        [androguard] vn=1.11  vc=2602240  pkg=com.mixplorer.addon.tagger
+2026-05-01 16:31:39 [DEBUG   ] apk_extractor        arch(MiXTagger_B2602240.apk) = universal  (lib dirs found: {'arm', 'x86', 'x64', 'arm64'})
+2026-05-01 16:31:39 [INFO    ] apk_extractor        ✓ MiXTagger_B2602240.apk: vn=1.11  vc=2602240  arch=universal  confidence=high  methods=['aapt', 'androguard']
+2026-05-01 16:31:39 [INFO    ] apk_extractor        Extracting version from MiXTagger_B2602241-arm.apk …
+2026-05-01 16:31:39 [DEBUG   ] apk_extractor        [aapt] vn=1.11  vc=2602241  pkg=com.mixplorer.addon.tagger
+2026-05-01 16:31:39 [WARNING ] apk_extractor        pyaxmlparser error on MiXTagger_B2602241-arm.apk: 'APK' object has no attribute 'get_app_version'
+2026-05-01 16:31:39 [WARNING ] apk_extractor        Only 1 of 2 fast methods succeeded for MiXTagger_B2602241-arm.apk. Running tiebreaker.
+2026-05-01 16:31:39 [WARNING ] androguard.core.api_specific_resources Requested API level 36 is larger than maximum we have, returning API level 28 instead.
+2026-05-01 16:31:43 [DEBUG   ] apk_extractor        [androguard] vn=1.11  vc=2602241  pkg=com.mixplorer.addon.tagger
+2026-05-01 16:31:43 [DEBUG   ] apk_extractor        arch(MiXTagger_B2602241-arm.apk) = arm  (lib dirs found: {'arm'})
+2026-05-01 16:31:43 [INFO    ] apk_extractor        ✓ MiXTagger_B2602241-arm.apk: vn=1.11  vc=2602241  arch=arm  confidence=high  methods=['aapt', 'androguard']
+2026-05-01 16:31:43 [INFO    ] apk_extractor        Extracting version from MiXTagger_B2602242-arm64.apk …
+2026-05-01 16:31:43 [DEBUG   ] apk_extractor        [aapt] vn=1.11  vc=2602242  pkg=com.mixplorer.addon.tagger
+2026-05-01 16:31:43 [WARNING ] apk_extractor        pyaxmlparser error on MiXTagger_B2602242-arm64.apk: 'APK' object has no attribute 'get_app_version'
+2026-05-01 16:31:43 [WARNING ] apk_extractor        Only 1 of 2 fast methods succeeded for MiXTagger_B2602242-arm64.apk. Running tiebreaker.
+2026-05-01 16:31:43 [WARNING ] androguard.core.api_specific_resources Requested API level 36 is larger than maximum we have, returning API level 28 instead.
+2026-05-01 16:31:47 [DEBUG   ] apk_extractor        [androguard] vn=1.11  vc=2602242  pkg=com.mixplorer.addon.tagger
+2026-05-01 16:31:47 [DEBUG   ] apk_extractor        arch(MiXTagger_B2602242-arm64.apk) = arm64  (lib dirs found: {'arm64'})
+2026-05-01 16:31:47 [INFO    ] apk_extractor        ✓ MiXTagger_B2602242-arm64.apk: vn=1.11  vc=2602242  arch=arm64  confidence=high  methods=['aapt', 'androguard']
+2026-05-01 16:31:47 [INFO    ] apk_extractor        Extracting version from MiXTagger_B2602243-x86.apk …
+2026-05-01 16:31:47 [DEBUG   ] apk_extractor        [aapt] vn=1.11  vc=2602243  pkg=com.mixplorer.addon.tagger
+2026-05-01 16:31:47 [WARNING ] apk_extractor        pyaxmlparser error on MiXTagger_B2602243-x86.apk: 'APK' object has no attribute 'get_app_version'
+2026-05-01 16:31:47 [WARNING ] apk_extractor        Only 1 of 2 fast methods succeeded for MiXTagger_B2602243-x86.apk. Running tiebreaker.
+2026-05-01 16:31:47 [WARNING ] androguard.core.api_specific_resources Requested API level 36 is larger than maximum we have, returning API level 28 instead.
+2026-05-01 16:31:50 [DEBUG   ] apk_extractor        [androguard] vn=1.11  vc=2602243  pkg=com.mixplorer.addon.tagger
+2026-05-01 16:31:50 [DEBUG   ] apk_extractor        arch(MiXTagger_B2602243-x86.apk) = x86  (lib dirs found: {'x86'})
+2026-05-01 16:31:50 [INFO    ] apk_extractor        ✓ MiXTagger_B2602243-x86.apk: vn=1.11  vc=2602243  arch=x86  confidence=high  methods=['aapt', 'androguard']
+2026-05-01 16:31:50 [INFO    ] apk_extractor        Extracting version from MiXTagger_B2602244-x64.apk …
+2026-05-01 16:31:50 [DEBUG   ] apk_extractor        [aapt] vn=1.11  vc=2602244  pkg=com.mixplorer.addon.tagger
+2026-05-01 16:31:50 [WARNING ] apk_extractor        pyaxmlparser error on MiXTagger_B2602244-x64.apk: 'APK' object has no attribute 'get_app_version'
+2026-05-01 16:31:50 [WARNING ] apk_extractor        Only 1 of 2 fast methods succeeded for MiXTagger_B2602244-x64.apk. Running tiebreaker.
+2026-05-01 16:31:50 [WARNING ] androguard.core.api_specific_resources Requested API level 36 is larger than maximum we have, returning API level 28 instead.
+2026-05-01 16:31:54 [DEBUG   ] apk_extractor        [androguard] vn=1.11  vc=2602244  pkg=com.mixplorer.addon.tagger
+2026-05-01 16:31:54 [DEBUG   ] apk_extractor        arch(MiXTagger_B2602244-x64.apk) = x64  (lib dirs found: {'x64'})
+2026-05-01 16:31:54 [INFO    ] apk_extractor        ✓ MiXTagger_B2602244-x64.apk: vn=1.11  vc=2602244  arch=x64  confidence=high  methods=['aapt', 'androguard']
+2026-05-01 16:31:54 [INFO    ] main                   MiX_Tagger v1.11 already released — nothing to do.
+2026-05-01 16:31:54 [INFO    ] main                 ○ No update: MiX_Tagger
+2026-05-01 16:31:54 [INFO    ] main                 ──────────────────────────────────────────────────
+2026-05-01 16:31:54 [INFO    ] main                 App: MiXplorer-v6.70.3  (Drive folder: MiXplorer-v6.70.3)
+2026-05-01 16:31:54 [DEBUG   ] drive_client         list_folder(1VQTQFTUVPKGVCtKROq5J_R7CyJLDTLto): 5 items
+2026-05-01 16:31:54 [INFO    ] main                 Found 5 APK(s): ['MiXplorer_v6.70.3_B26022810.apk', 'MiXplorer_v6.70.3_B26022811-arm.apk', 'MiXplorer_v6.70.3_B26022812-arm64.apk', 'MiXplorer_v6.70.3_B26022813-x86.apk', 'MiXplorer_v6.70.3_B26022814-x64.apk']
+2026-05-01 16:31:54 [INFO    ] drive_client         Downloading MiXplorer_v6.70.3_B26022810.apk (attempt 1/3) …
+2026-05-01 16:31:56 [INFO    ] drive_client         Downloaded MiXplorer_v6.70.3_B26022810.apk (7,987,201 bytes)
+2026-05-01 16:31:56 [INFO    ] drive_client         Downloading MiXplorer_v6.70.3_B26022811-arm.apk (attempt 1/3) …
+2026-05-01 16:31:58 [INFO    ] drive_client         Downloaded MiXplorer_v6.70.3_B26022811-arm.apk (4,985,410 bytes)
+2026-05-01 16:31:58 [INFO    ] drive_client         Downloading MiXplorer_v6.70.3_B26022812-arm64.apk (attempt 1/3) …
+2026-05-01 16:31:59 [INFO    ] drive_client         Downloaded MiXplorer_v6.70.3_B26022812-arm64.apk (5,055,131 bytes)
+2026-05-01 16:31:59 [INFO    ] drive_client         Downloading MiXplorer_v6.70.3_B26022813-x86.apk (attempt 1/3) …
+2026-05-01 16:32:01 [INFO    ] drive_client         Downloaded MiXplorer_v6.70.3_B26022813-x86.apk (5,151,722 bytes)
+2026-05-01 16:32:01 [INFO    ] drive_client         Downloading MiXplorer_v6.70.3_B26022814-x64.apk (attempt 1/3) …
+2026-05-01 16:32:02 [INFO    ] drive_client         Downloaded MiXplorer_v6.70.3_B26022814-x64.apk (5,150,442 bytes)
+2026-05-01 16:32:02 [INFO    ] apk_extractor        Extracting version from MiXplorer_v6.70.3_B26022810.apk …
+2026-05-01 16:32:02 [DEBUG   ] apk_extractor        [aapt] vn=6.70.3  vc=26022810  pkg=com.mixplorer
+2026-05-01 16:32:02 [WARNING ] apk_extractor        pyaxmlparser error on MiXplorer_v6.70.3_B26022810.apk: 'APK' object has no attribute 'get_app_version'
+2026-05-01 16:32:02 [WARNING ] apk_extractor        Only 1 of 2 fast methods succeeded for MiXplorer_v6.70.3_B26022810.apk. Running tiebreaker.
+2026-05-01 16:32:02 [WARNING ] androguard.core.api_specific_resources Requested API level 36 is larger than maximum we have, returning API level 28 instead.
+2026-05-01 16:32:15 [DEBUG   ] apk_extractor        [androguard] vn=6.70.3  vc=26022810  pkg=com.mixplorer
+2026-05-01 16:32:15 [DEBUG   ] apk_extractor        arch(MiXplorer_v6.70.3_B26022810.apk) = universal  (lib dirs found: {'arm', 'x86', 'x64', 'arm64'})
+2026-05-01 16:32:15 [INFO    ] apk_extractor        ✓ MiXplorer_v6.70.3_B26022810.apk: vn=6.70.3  vc=26022810  arch=universal  confidence=high  methods=['aapt', 'androguard']
+2026-05-01 16:32:15 [INFO    ] apk_extractor        Extracting version from MiXplorer_v6.70.3_B26022811-arm.apk …
+2026-05-01 16:32:15 [DEBUG   ] apk_extractor        [aapt] vn=6.70.3  vc=26022811  pkg=com.mixplorer
+2026-05-01 16:32:15 [WARNING ] apk_extractor        pyaxmlparser error on MiXplorer_v6.70.3_B26022811-arm.apk: 'APK' object has no attribute 'get_app_version'
+2026-05-01 16:32:15 [WARNING ] apk_extractor        Only 1 of 2 fast methods succeeded for MiXplorer_v6.70.3_B26022811-arm.apk. Running tiebreaker.
+2026-05-01 16:32:15 [WARNING ] androguard.core.api_specific_resources Requested API level 36 is larger than maximum we have, returning API level 28 instead.
+2026-05-01 16:32:29 [DEBUG   ] apk_extractor        [androguard] vn=6.70.3  vc=26022811  pkg=com.mixplorer
+2026-05-01 16:32:29 [DEBUG   ] apk_extractor        arch(MiXplorer_v6.70.3_B26022811-arm.apk) = arm  (lib dirs found: {'arm'})
+2026-05-01 16:32:29 [INFO    ] apk_extractor        ✓ MiXplorer_v6.70.3_B26022811-arm.apk: vn=6.70.3  vc=26022811  arch=arm  confidence=high  methods=['aapt', 'androguard']
+2026-05-01 16:32:29 [INFO    ] apk_extractor        Extracting version from MiXplorer_v6.70.3_B26022812-arm64.apk …
+2026-05-01 16:32:29 [DEBUG   ] apk_extractor        [aapt] vn=6.70.3  vc=26022812  pkg=com.mixplorer
+2026-05-01 16:32:29 [WARNING ] apk_extractor        pyaxmlparser error on MiXplorer_v6.70.3_B26022812-arm64.apk: 'APK' object has no attribute 'get_app_version'
+2026-05-01 16:32:29 [WARNING ] apk_extractor        Only 1 of 2 fast methods succeeded for MiXplorer_v6.70.3_B26022812-arm64.apk. Running tiebreaker.
+2026-05-01 16:32:29 [WARNING ] androguard.core.api_specific_resources Requested API level 36 is larger than maximum we have, returning API level 28 instead.
+2026-05-01 16:32:43 [DEBUG   ] apk_extractor        [androguard] vn=6.70.3  vc=26022812  pkg=com.mixplorer
+2026-05-01 16:32:43 [DEBUG   ] apk_extractor        arch(MiXplorer_v6.70.3_B26022812-arm64.apk) = arm64  (lib dirs found: {'arm64'})
+2026-05-01 16:32:43 [INFO    ] apk_extractor        ✓ MiXplorer_v6.70.3_B26022812-arm64.apk: vn=6.70.3  vc=26022812  arch=arm64  confidence=high  methods=['aapt', 'androguard']
+2026-05-01 16:32:43 [INFO    ] apk_extractor        Extracting version from MiXplorer_v6.70.3_B26022813-x86.apk …
+2026-05-01 16:32:43 [DEBUG   ] apk_extractor        [aapt] vn=6.70.3  vc=26022813  pkg=com.mixplorer
+2026-05-01 16:32:43 [WARNING ] apk_extractor        pyaxmlparser error on MiXplorer_v6.70.3_B26022813-x86.apk: 'APK' object has no attribute 'get_app_version'
+2026-05-01 16:32:43 [WARNING ] apk_extractor        Only 1 of 2 fast methods succeeded for MiXplorer_v6.70.3_B26022813-x86.apk. Running tiebreaker.
+2026-05-01 16:32:43 [WARNING ] androguard.core.api_specific_resources Requested API level 36 is larger than maximum we have, returning API level 28 instead.
+2026-05-01 16:32:57 [DEBUG   ] apk_extractor        [androguard] vn=6.70.3  vc=26022813  pkg=com.mixplorer
+2026-05-01 16:32:57 [DEBUG   ] apk_extractor        arch(MiXplorer_v6.70.3_B26022813-x86.apk) = x86  (lib dirs found: {'x86'})
+2026-05-01 16:32:57 [INFO    ] apk_extractor        ✓ MiXplorer_v6.70.3_B26022813-x86.apk: vn=6.70.3  vc=26022813  arch=x86  confidence=high  methods=['aapt', 'androguard']
+2026-05-01 16:32:57 [INFO    ] apk_extractor        Extracting version from MiXplorer_v6.70.3_B26022814-x64.apk …
+2026-05-01 16:32:57 [DEBUG   ] apk_extractor        [aapt] vn=6.70.3  vc=26022814  pkg=com.mixplorer
+2026-05-01 16:32:57 [WARNING ] apk_extractor        pyaxmlparser error on MiXplorer_v6.70.3_B26022814-x64.apk: 'APK' object has no attribute 'get_app_version'
+2026-05-01 16:32:57 [WARNING ] apk_extractor        Only 1 of 2 fast methods succeeded for MiXplorer_v6.70.3_B26022814-x64.apk. Running tiebreaker.
+2026-05-01 16:32:57 [WARNING ] androguard.core.api_specific_resources Requested API level 36 is larger than maximum we have, returning API level 28 instead.
+2026-05-01 16:33:11 [DEBUG   ] apk_extractor        [androguard] vn=6.70.3  vc=26022814  pkg=com.mixplorer
+2026-05-01 16:33:11 [DEBUG   ] apk_extractor        arch(MiXplorer_v6.70.3_B26022814-x64.apk) = x64  (lib dirs found: {'x64'})
+2026-05-01 16:33:11 [INFO    ] apk_extractor        ✓ MiXplorer_v6.70.3_B26022814-x64.apk: vn=6.70.3  vc=26022814  arch=x64  confidence=high  methods=['aapt', 'androguard']
+2026-05-01 16:33:11 [INFO    ] main                   MiXplorer-v6.70.3 v6.70.3 already released — nothing to do.
+2026-05-01 16:33:11 [INFO    ] main                 ○ No update: MiXplorer-v6.70.3
+2026-05-01 16:33:11 [INFO    ] main                 ============================================================
+2026-05-01 16:33:11 [INFO    ] main                 Pipeline complete — Released=0  Skipped=7  Failed=0
+2026-05-01 16:33:11 [INFO    ] main                 Results: {'MiX_Archive': 'no_update', 'MiX_Encrypt': 'no_update', 'MiX_Image': 'no_update', 'MiX_PDF': 'no_update', 'MiX_Player_Codecs': 'no_update', 'MiX_Tagger': 'no_update', 'MiXplorer-v6.70.3': 'no_update'}
+2026-05-01 16:33:11 [INFO    ] main                 ============================================================
+2026-05-01 16:33:11 [INFO    ] state_manager        State → Running  |  Success
