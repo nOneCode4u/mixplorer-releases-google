@@ -1,17 +1,10 @@
 {
-  "MiXplorer": "MiXplorer",
-  "MiXArchive": "MiX_Archive",
-  "MiXCodecs": "MiX_Codecs",
-  "MiXEncrypt": "MiX_Encrypt",
-  "MiXImage": "MiX_Image",
-  "MiXPDF": "MiX_PDF",
-  "MIXPDF": "MiX_PDF",
-  "MiXTagger": "MiX_Tagger",
-  "MiX Archive": "MiX_Archive",
-  "MiX Encrypt": "MiX_Encrypt",
-  "MiX Image": "MiX_Image",
-  "MiX PDF": "MiX_PDF",
-  "MiX Player Codecs": "MiX_Player_Codecs",
-  "MiX Tagger": "MiX_Tagger",
-  "MiXplorer-v6.70.3": "MiXplorer-v6.70.3"
+  "MiXplorer":           "MiXplorer",
+  "MiXArchive":          "MiX_Archive",
+  "MiXCodecs":           "MiX_Codecs",
+  "MiXPlayerCodecs":     "MiX_Codecs",
+  "MiXEncrypt":          "MiX_Encrypt",
+  "MiXImage":            "MiX_Image",
+  "MiXPDF":              "MiX_PDF",
+  "MiXTagger":           "MiX_Tagger"
 }
