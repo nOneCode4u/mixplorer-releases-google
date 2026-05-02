@@ -1,10 +1,9 @@
 {
-  "MiXplorer":           "MiXplorer",
-  "MiXArchive":          "MiX_Archive",
-  "MiXCodecs":           "MiX_Codecs",
-  "MiXPlayerCodecs":     "MiX_Codecs",
-  "MiXEncrypt":          "MiX_Encrypt",
-  "MiXImage":            "MiX_Image",
-  "MiXPDF":              "MiX_PDF",
-  "MiXTagger":           "MiX_Tagger"
+  "MiXplorer": "MiXplorer",
+  "MiXArchive": "MiX_Archive",
+  "MiXCodecs": "MiX_Codecs",
+  "MiXEncrypt": "MiX_Encrypt",
+  "MiXImage": "MiX_Image",
+  "MiXPDF": "MiX_PDF",
+  "MiXTagger": "MiX_Tagger"
 }
