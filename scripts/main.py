@@ -35,11 +35,7 @@ from logger import get_logger
 from state_manager import read_state, write_state
 from drive_client import DriveClient, DriveError
 from apk_extractor import extract_apk_info, APKInfo
-from apk_renamer import (
-    load_rename_map, save_rename_map,
-    auto_map_folder_name, get_display_name,
-    finalize_filenames,
-)
+from apk_renamer import _strip_version_suffix as _strip_version_suffix_import
 from release_manager import ReleaseManager, GitHubError
 from notifier import Notifier
 from changelog_fetcher import fetch_changelog   # was: from changelog_fetcher import fetch_xda_changelog
@@ -446,15 +442,25 @@ def main() -> None:
     log.info(f"Drive folders found: {[f['name'] for f in subfolders]}")
 
     # ── Map folder names → app names ──────────────────────────────────────
+# In main.py — replace the "Map folder names → app names" block
+
     app_folders: list[tuple[dict, str]] = []
     for folder in subfolders:
         fname = folder["name"]
-        if fname in rename_map:
-            app_name = rename_map[fname]
+        # Always look up by clean name so versioned folders resolve correctly
+        clean_fname = _strip_version_suffix_import(fname)   # see note below
+
+        lookup_key = fname if fname in rename_map else clean_fname
+
+        if lookup_key in rename_map:
+            app_name = rename_map[lookup_key]
         else:
             app_name = auto_map_folder_name(fname)
-            log.info(f"Auto-mapped: {fname!r} → {app_name!r}")
-            rename_map[fname] = app_name
+            log.info(f"Auto-mapped: {fname!r} → {app_name!r} (stored as {clean_fname!r})")
+            # Store under the CLEAN key so future versioned folder names also match
+            rename_map[clean_fname] = app_name
+            if clean_fname != fname:
+                rename_map[fname] = app_name   # also store original for this run
             save_rename_map(rename_map)
             notifier.new_app_discovered(fname, app_name)
         app_folders.append((folder, app_name))
