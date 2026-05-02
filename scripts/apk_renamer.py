@@ -80,32 +80,33 @@ def auto_map_folder_name(folder_name: str) -> str:
     """
     Convert a Drive folder name to a standardised app name.
 
-    Priority order:
-    1. _KNOWN_OVERRIDES  (explicit, highest priority)
-    2. Rename map file   (previously saved auto-mappings)
-    3. Version-stripped name against _KNOWN_OVERRIDES
-    4. Auto-derive: MiX_Foo from MiXFoo
-    5. Sanitise fallback: spaces → underscores
+    Priority:
+    1. Exact match in _KNOWN_OVERRIDES
+    2. Strip version suffix, then try _KNOWN_OVERRIDES again
+    3. Auto-derive: MiX_Foo from MiXFoo
+    4. Sanitise fallback
+
+    NOTE: We always map using the *clean* (version-stripped) name so
+    that rename_map.json never needs a version-specific entry.
     """
-    # 1. Direct match in known overrides
+    # 1. Direct exact match
     if folder_name in _KNOWN_OVERRIDES:
         return _KNOWN_OVERRIDES[folder_name]
 
-    # 2. Strip version suffix and try again
+    # 2. Strip version suffix and retry
     clean = _strip_version_suffix(folder_name)
     if clean in _KNOWN_OVERRIDES:
         return _KNOWN_OVERRIDES[clean]
 
-    # 3. Auto-derive: MiXplorer stays MiXplorer, MiXFoo → MiX_Foo
+    # 3. Auto-derive
     if clean == "MiXplorer":
         return "MiXplorer"
-
-    m = re.match(r"^(MiX)([A-Z].*)$", clean)
+    m = re.match(r"^(MiX)[_\s]?([A-Z].*)$", clean)
     if m:
-        return f"{m.group(1)}_{m.group(2)}"
+        return f"MiX_{m.group(2)}"
 
     # 4. Last-resort sanitise
-    return re.sub(r"\s+", "_", clean)
+    return re.sub(r"[\s\-]+", "_", clean).strip("_")
 
 
 def get_display_name(app_name: str) -> str:
