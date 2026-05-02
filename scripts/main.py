@@ -167,14 +167,6 @@ def build_release_body(
     descriptions: dict,
     changelog: str,
 ) -> str:
-    """
-    Build the release description body.
-
-    Contains:
-      - App name heading (no version — version is already in the release title)
-      - Obtainium one-tap badge
-      - Changelog section
-    """
     info        = descriptions.get(app_name, {})
     display     = info.get("display_name", get_display_name(app_name))
     icon        = info.get("icon", "📦")
@@ -193,7 +185,7 @@ def build_release_body(
 
 ---
 
-*Mirrored automatically from the developer's official Google Drive.*
+*Mirrored from the developer's official Google Drive.*
 """
 
 
@@ -348,7 +340,8 @@ def process_app(
     # ── Fetch changelog (from APK itself) ─────────────────────────────────
     # Use the first/largest APK as the source (they all have the same changelog)
     changelog_apk = max(final_files, key=lambda p: p.stat().st_size)
-    changelog = fetch_changelog(changelog_apk, version_name)
+    # In main.py process_app — replace the changelog fetch line
+    changelog = fetch_changelog(changelog_apk, version_name, app_name=app_name)
 
     # ── Release title format: "MiX Archive v3.20" ─────────────────────────
     # NOTE: display_name already has spaces (e.g. "MiX Archive")
