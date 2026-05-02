@@ -42,7 +42,7 @@ from apk_renamer import (
 )
 from release_manager import ReleaseManager, GitHubError
 from notifier import Notifier
-from changelog_fetcher import fetch_xda_changelog
+from changelog_fetcher import fetch_changelog   # was: from changelog_fetcher import fetch_xda_changelog
 
 log = get_logger("main")
 
