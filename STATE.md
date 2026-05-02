@@ -1,12 +1,12 @@
 # Workflow State
 
-<!-- STATE: Running -->
+<!-- STATE: Error -->
 
 | Key | Value |
 |-----|-------|
-| **Last Updated** | 2026-05-01 16:37:05 UTC |
-| **Last Status**  | Success |
-| **Details**      | Released=7  Skipped=0  Failed=0 |
+| **Last Updated** | 2026-05-02 05:53:52 UTC |
+| **Last Status**  | Unexpected error in MiXplorer |
+| **Details**      | PosixPath('/tmp/apk_update_5koqtrfo/MiXplorer/MiXplorer_v6.70.3_B26022811-arm.apk') and PosixPath('/tmp/apk_update_5koqtrfo/MiXplorer/MiXplorer_v6.70.3_B26022811-arm.apk') are the same file |
 
 ---
 

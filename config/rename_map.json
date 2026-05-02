@@ -5,5 +5,12 @@
   "MiXEncrypt": "MiX_Encrypt",
   "MiXImage": "MiX_Image",
   "MiXPDF": "MiX_PDF",
-  "MiXTagger": "MiX_Tagger"
+  "MiXTagger": "MiX_Tagger",
+  "MiX Archive": "MiX_Archive",
+  "MiX Encrypt": "MiX_Encrypt",
+  "MiX Image": "MiX_Image",
+  "MiX PDF": "MiX_PDF",
+  "MiX Player Codecs": "MiX_Codecs",
+  "MiX Tagger": "MiX_Tagger",
+  "MiXplorer-v6.70.3": "MiXplorer"
 }
