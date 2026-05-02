@@ -78,20 +78,6 @@
     ],
     "updated_at": "2026-05-02T06:02:50.354258+00:00"
   },
-  "MiXplorer-v6.70.3": {
-    "version_name": "6.70.3",
-    "version_code": "26022810",
-    "release_tag": "MiXplorer-v6.70.3-v6.70.3",
-    "release_id": 316450271,
-    "assets": [
-      "MiXplorer-v6.70.3_v6.70.3_B26022810-universal.apk",
-      "MiXplorer-v6.70.3_v6.70.3_B26022811-arm.apk",
-      "MiXplorer-v6.70.3_v6.70.3_B26022812-arm64.apk",
-      "MiXplorer-v6.70.3_v6.70.3_B26022813-x86.apk",
-      "MiXplorer-v6.70.3_v6.70.3_B26022814-x64.apk"
-    ],
-    "updated_at": "2026-05-01T16:37:05.812321+00:00"
-  },
   "MiX_Codecs": {
     "version_name": "2.9",
     "version_code": "2512131",
