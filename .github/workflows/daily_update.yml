@@ -2,7 +2,7 @@ name: Daily APK Update Check
 
 on:
   schedule:
-    - cron: '0 6 * * *'    # 06:00 UTC daily
+    - cron: '0 6 * * *'
   workflow_dispatch:
     inputs:
       force_all:
@@ -14,17 +14,14 @@ on:
         type: boolean
         default: false
 
-# Prevent concurrent runs — queue them instead of cancelling
 concurrency:
   group: apk-update
   cancel-in-progress: false
 
-# Force Node.js 24 for all JavaScript actions (fixes Node 20 deprecation warning)
 env:
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
 jobs:
-  # ─── Pre-flight checks ────────────────────────────────────────────────
   preflight:
     name: Pre-flight Checks
     runs-on: ubuntu-latest
@@ -40,7 +37,6 @@ jobs:
         env:
           HAS_GDRIVE_KEY: ${{ secrets.GDRIVE_API_KEY != '' }}
         run: |
-          # ── Secret check ───────────────────────────────────────────────
           if [ "$HAS_GDRIVE_KEY" = "false" ]; then
             echo "::warning::GDRIVE_API_KEY secret is not configured."
             echo "::warning::See STATE.md for setup instructions."
@@ -49,7 +45,6 @@ jobs:
             exit 0
           fi
 
-          # ── Read STATE.md ──────────────────────────────────────────────
           STATE="Running"
           if [ -f "STATE.md" ]; then
             EXTRACTED=$(grep -oP '(?<=<!-- STATE: )\w+(?= -->)' STATE.md | head -1)
@@ -69,7 +64,6 @@ jobs:
 
           echo "Workflow state: $STATE"
 
-  # ─── Main update job ──────────────────────────────────────────────────
   update:
     name: Download, Extract, Release
     needs: preflight
@@ -97,21 +91,16 @@ jobs:
         id: aapt
         run: |
           AAPT=""
-
-          # Prefer pre-installed SDK on the runner
           if [ -n "$ANDROID_HOME" ]; then
             AAPT=$(find "$ANDROID_HOME/build-tools" -name "aapt" -type f 2>/dev/null \
                    | sort -rV | head -1)
           fi
-
-          # Fall back to apt if SDK not found or aapt missing
           if [ -z "$AAPT" ]; then
             echo "::warning::aapt not found via ANDROID_HOME — installing via apt."
             sudo apt-get update -qq
             sudo apt-get install -y -qq aapt
             AAPT="aapt"
           fi
-
           echo "AAPT_PATH=$AAPT" >> "$GITHUB_ENV"
           echo "aapt_path=$AAPT" >> "$GITHUB_OUTPUT"
           echo "Using aapt at: $AAPT"
@@ -136,7 +125,7 @@ jobs:
           DEBUG_MODE:             ${{ github.event.inputs.debug_mode || 'false' }}
         run: python3 scripts/main.py
 
-      - name: Commit state and logs
+      - name: Commit state
         if: always()
         run: |
           git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
