@@ -91,5 +91,19 @@
       "MiX_Codecs_v2.9_B2512135-x64.apk"
     ],
     "updated_at": "2026-05-02T06:02:24.816402+00:00"
+  },
+  "MiXplorer": {
+    "version_name": "6.70.3",
+    "version_code": "26022810",
+    "release_tag": "MiXplorer_v6.70.3",
+    "release_id": 316671380,
+    "assets": [
+      "MiXplorer_v6.70.3_B26022810-universal.apk",
+      "MiXplorer_v6.70.3_B26022811-arm.apk",
+      "MiXplorer_v6.70.3_B26022812-arm64.apk",
+      "MiXplorer_v6.70.3_B26022813-x86.apk",
+      "MiXplorer_v6.70.3_B26022814-x64.apk"
+    ],
+    "updated_at": "2026-05-02T09:24:22.299283+00:00"
   }
 }
