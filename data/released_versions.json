@@ -1,1 +1,95 @@
-
+{
+  "MiX_Archive": {
+    "version_name": "3.20",
+    "version_code": "2602261",
+    "release_tag": "MiX_Archive_v3.20",
+    "release_id": 316650579,
+    "assets": [
+      "MiX_Archive_v3.20_B2602261-arm.apk",
+      "MiX_Archive_v3.20_B2602262-arm64.apk",
+      "MiX_Archive_v3.20_B2602263-x86.apk",
+      "MiX_Archive_v3.20_B2602264-x64.apk"
+    ],
+    "updated_at": "2026-05-02T06:01:26.190513+00:00"
+  },
+  "MiX_Encrypt": {
+    "version_name": "1.0",
+    "version_code": "2512251",
+    "release_tag": "MiX_Encrypt_v1.0",
+    "release_id": 316650587,
+    "assets": [
+      "MiX_Encrypt_v1.0_B2512251.apk"
+    ],
+    "updated_at": "2026-05-02T06:01:28.925591+00:00"
+  },
+  "MiX_Image": {
+    "version_name": "2.16",
+    "version_code": "2602230",
+    "release_tag": "MiX_Image_v2.16",
+    "release_id": 316650602,
+    "assets": [
+      "MiX_Image_v2.16_B2602230-universal.apk",
+      "MiX_Image_v2.16_B2602231-arm.apk",
+      "MiX_Image_v2.16_B2602232-arm64.apk",
+      "MiX_Image_v2.16_B2602233-x86.apk",
+      "MiX_Image_v2.16_B2602234-x64.apk"
+    ],
+    "updated_at": "2026-05-02T06:01:39.942354+00:00"
+  },
+  "MiX_PDF": {
+    "version_name": "1.19",
+    "version_code": "2602260",
+    "release_tag": "MiX_PDF_v1.19",
+    "release_id": 316650627,
+    "assets": [
+      "MiX_PDF_v1.19_B2602260-universal.apk",
+      "MiX_PDF_v1.19_B2602261-arm.apk",
+      "MiX_PDF_v1.19_B2602262-arm64.apk",
+      "MiX_PDF_v1.19_B2602263-x86.apk",
+      "MiX_PDF_v1.19_B2602264-x64.apk"
+    ],
+    "updated_at": "2026-05-02T06:01:54.823781+00:00"
+  },
+  "MiX_Codecs": {
+    "version_name": "2.9",
+    "version_code": "2512131",
+    "release_tag": "MiX_Codecs_v2.9",
+    "release_id": 316650660,
+    "assets": [
+      "MiX_Codecs_v2.9_B2512131-universal.apk",
+      "MiX_Codecs_v2.9_B2512132-arm.apk",
+      "MiX_Codecs_v2.9_B2512133-arm64.apk",
+      "MiX_Codecs_v2.9_B2512134-x86.apk",
+      "MiX_Codecs_v2.9_B2512135-x64.apk"
+    ],
+    "updated_at": "2026-05-02T06:02:24.816402+00:00"
+  },
+  "MiX_Tagger": {
+    "version_name": "1.11",
+    "version_code": "2602240",
+    "release_tag": "MiX_Tagger_v1.11",
+    "release_id": 316650706,
+    "assets": [
+      "MiX_Tagger_v1.11_B2602240-universal.apk",
+      "MiX_Tagger_v1.11_B2602241-arm.apk",
+      "MiX_Tagger_v1.11_B2602242-arm64.apk",
+      "MiX_Tagger_v1.11_B2602243-x86.apk",
+      "MiX_Tagger_v1.11_B2602244-x64.apk"
+    ],
+    "updated_at": "2026-05-02T06:02:50.354258+00:00"
+  },
+  "MiXplorer": {
+    "version_name": "6.70.3",
+    "version_code": "26022810",
+    "release_tag": "MiXplorer_v6.70.3",
+    "release_id": 316671380,
+    "assets": [
+      "MiXplorer_v6.70.3_B26022810-universal.apk",
+      "MiXplorer_v6.70.3_B26022811-arm.apk",
+      "MiXplorer_v6.70.3_B26022812-arm64.apk",
+      "MiXplorer_v6.70.3_B26022813-x86.apk",
+      "MiXplorer_v6.70.3_B26022814-x64.apk"
+    ],
+    "updated_at": "2026-05-02T09:24:22.299283+00:00"
+  }
+}

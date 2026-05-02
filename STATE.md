@@ -12,15 +12,16 @@
 
 ## Control
 
-**To resume after a failure:** fix the issue → change `Paused` → `Resumed` above → save.
+**To resume after a failure:** fix the issue → change `Paused` → `Resumed` above → save file.
 
-**To force a full re-run:** Actions → Daily APK Update Check → Run workflow → enable "Force re-process all apps".
+**To force a full re-run:** Actions tab → Daily APK Update Check → Run workflow → enable "Force re-process all apps".
 
 **To set up `GDRIVE_API_KEY`:**
 1. Go to [Google Cloud Console](https://console.cloud.google.com/) → create a project.
-2. Enable **Google Drive API**.
-3. Credentials → **+ CREATE CREDENTIALS** → **API key** → restrict to Google Drive API.
-4. In this repo: Settings → Secrets → Actions → New repository secret → `GDRIVE_API_KEY`.
+2. Enable **Google Drive API** (APIs & Services → Library).
+3. APIs & Services → Credentials → **+ CREATE CREDENTIALS** → **API key**.
+4. Restrict key to Google Drive API only.
+5. In this repo: Settings → Secrets and variables → Actions → New repository secret → Name: `GDRIVE_API_KEY`.
 
 | State | Meaning |
 |-------|---------|

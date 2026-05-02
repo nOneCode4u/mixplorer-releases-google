@@ -1,19 +1,5 @@
 """
 APK Update Pipeline — Orchestrator
-
-Flow
-----
-1. Check STATE.md — exit immediately if Paused.
-2. Load config, version cache, and manual overrides.
-3. Discover app folders on Google Drive.
-4. For each app:
-   a. Download all APK variants.
-   b. Extract version (multi-method + cross-verify).
-   c. Rename to standard format.
-   d. Compare with released_versions.json.
-   e. If new version: create GitHub Release + upload + verify.
-5. Save updated version cache.
-6. Update STATE.md.
 """
 import json
 import os
@@ -49,7 +35,6 @@ from changelog_fetcher import fetch_changelog
 
 log = get_logger("main")
 
-# ── Environment ───────────────────────────────────────────────────────────────
 GDRIVE_API_KEY = os.environ["GDRIVE_API_KEY"]
 GH_TOKEN       = os.environ["GH_TOKEN"]
 GH_REPO        = os.environ["GH_REPO"]
@@ -57,18 +42,17 @@ ROOT_FOLDER_ID = os.environ.get("GDRIVE_ROOT_FOLDER_ID", "1BfeK39boriHy-9q76eXLL
 FORCE_ALL      = os.environ.get("FORCE_ALL",  "false").lower() == "true"
 DEBUG_MODE     = os.environ.get("DEBUG_MODE", "false").lower() == "true"
 
-# ── Paths ─────────────────────────────────────────────────────────────────────
 VERSIONS_FILE        = Path("data/released_versions.json")
 MANUAL_VERSIONS_FILE = Path("MANUAL_VERSIONS.md")
 DESCRIPTIONS_FILE    = Path("config/descriptions.json")
 
 
-# ── Helpers ───────────────────────────────────────────────────────────────────
-
 def load_json(path: Path, default):
     if path.exists():
-        with open(path, encoding="utf-8") as fh:
-            return json.load(fh)
+        content = path.read_text(encoding="utf-8").strip()
+        if not content:
+            return default
+        return json.loads(content)
     return default
 
 
@@ -79,11 +63,9 @@ def save_json(path: Path, data) -> None:
 
 
 def load_manual_overrides() -> dict[str, dict]:
-    """Parse MANUAL_VERSIONS.md for completed override entries."""
     overrides: dict[str, dict] = {}
     if not MANUAL_VERSIONS_FILE.exists():
         return overrides
-
     for line in MANUAL_VERSIONS_FILE.read_text(encoding="utf-8").splitlines():
         line = line.strip()
         if not line.startswith("|") or "|---|" in line:
@@ -98,7 +80,6 @@ def load_manual_overrides() -> dict[str, dict]:
         if "Filename" in filename:
             continue
         overrides[filename] = {"version_name": vn, "version_code": vc, "arch": arch}
-
     log.info(f"Loaded {len(overrides)} manual override(s)")
     return overrides
 
@@ -106,17 +87,15 @@ def load_manual_overrides() -> dict[str, dict]:
 def append_pending_overrides(entries: list[dict]) -> None:
     if not entries:
         return
-
     if not MANUAL_VERSIONS_FILE.exists():
         MANUAL_VERSIONS_FILE.write_text(
             "# Manual Version Overrides\n\n"
-            "> Fill in `FILL_ME` cells, then set `STATE.md` → `Resumed`.\n\n"
+            "> Fill in `FILL_ME` cells, then set `STATE.md` to Resumed.\n\n"
             "## Pending\n\n"
             "| Filename | versionName | versionCode | arch | App |\n"
             "|---|---|---|---|---|\n",
             encoding="utf-8",
         )
-
     content  = MANUAL_VERSIONS_FILE.read_text(encoding="utf-8")
     new_rows = [
         f"| {e['filename']} | FILL_ME | FILL_ME | {e.get('arch', 'java')} | {e['app_name']} |"
@@ -130,17 +109,10 @@ def append_pending_overrides(entries: list[dict]) -> None:
                     lines = lines[: j + 1] + new_rows + lines[j + 1:]
                     MANUAL_VERSIONS_FILE.write_text("\n".join(lines), encoding="utf-8")
                     return
-    MANUAL_VERSIONS_FILE.write_text(
-        content + "\n" + "\n".join(new_rows) + "\n", encoding="utf-8"
-    )
+    MANUAL_VERSIONS_FILE.write_text(content + "\n" + "\n".join(new_rows) + "\n", encoding="utf-8")
 
 
 def _generate_obtainium_deep_link(app_name: str, display_name: str) -> str:
-    """
-    Generate a pre-configured Obtainium deep link for the release body badge.
-    Uses app_name as release title filter (e.g. 'MiXplorer', 'Archive', 'Codecs').
-    """
-    # Use just the meaningful keyword for each app's filter
     filter_map = {
         "MiXplorer":   "MiXplorer",
         "MiX_Archive": "Archive",
@@ -159,28 +131,26 @@ def _generate_obtainium_deep_link(app_name: str, display_name: str) -> str:
         "MiX_PDF":     "com.mixplorer.addon.pdf",
         "MiX_Tagger":  "com.mixplorer.addon.tagger",
     }
-
-    pkg_id    = pkg_map.get(app_name, f"com.mixplorer.{app_name.lower()}")
+    pkg_id       = pkg_map.get(app_name, f"com.mixplorer.{app_name.lower()}")
     title_filter = filter_map.get(app_name, app_name)
-
     config = {
         "id":     pkg_id,
         "url":    f"https://github.com/{GH_REPO}",
         "author": "nOneCode4u",
         "name":   display_name,
         "additionalSettings": json.dumps({
-            "includePrereleases":        False,
-            "fallbackToOlderReleases":   True,
-            "filterReleaseTitlesByRegEx": title_filter,
-            "filterReleaseNotesByRegEx": "",
-            "verifyLatestTag":           False,
-            "sortMethodChoice":          "date",
-            "autoApkFilterByArch":       True,
-            "apkFilterRegEx":            "",
-            "invertAPKFilter":           False,
+            "includePrereleases":           False,
+            "fallbackToOlderReleases":      True,
+            "filterReleaseTitlesByRegEx":   title_filter,
+            "filterReleaseNotesByRegEx":    "",
+            "verifyLatestTag":              False,
+            "sortMethodChoice":             "date",
+            "autoApkFilterByArch":          True,
+            "apkFilterRegEx":               "",
+            "invertAPKFilter":              False,
             "shizukuPretendToBeGooglePlay": True,
-            "allowInsecure":             True,
-            "refreshBeforeDownload":     True,
+            "allowInsecure":                True,
+            "refreshBeforeDownload":        True,
         }),
         "overrideSource": "GitHub",
         "allowIdChange":  True,
@@ -189,17 +159,11 @@ def _generate_obtainium_deep_link(app_name: str, display_name: str) -> str:
     return f"https://apps.obtainium.imranr.dev/redirect?r=obtainium://app/{encoded}"
 
 
-def build_release_body(
-    app_name: str,
-    version_name: str,
-    descriptions: dict,
-    changelog: str,
-) -> str:
+def build_release_body(app_name: str, version_name: str, descriptions: dict, changelog: str) -> str:
     info          = descriptions.get(app_name, {})
     display       = info.get("display_name", get_display_name(app_name))
     icon          = info.get("icon", "📦")
     obtainium_url = _generate_obtainium_deep_link(app_name, display)
-
     return f"""\
 ## {icon} {display}
 
@@ -217,28 +181,12 @@ def build_release_body(
 """
 
 
-# ── Per-app processor ─────────────────────────────────────────────────────────
-
 def process_app(
     *,
-    drive:             DriveClient,
-    rm:                ReleaseManager,
-    notifier:          Notifier,
-    folder_info:       dict,
-    app_name:          str,
-    released_versions: dict,
-    descriptions:      dict,
-    manual_overrides:  dict,
-    work_dir:          Path,
+    drive, rm, notifier, folder_info, app_name,
+    released_versions, descriptions, manual_overrides, work_dir,
 ) -> tuple[bool, Optional[dict]]:
-    """
-    Download, extract, rename, and release one app.
 
-    Returns (success, release_info | None).
-    success=True + release_info=None  → already up-to-date
-    success=True + release_info=dict  → new release created
-    success=False                     → error, state set to Paused
-    """
     folder_id = folder_info["id"]
     log.info("─" * 50)
     log.info(f"App: {app_name}  (Drive folder: {folder_info['name']})")
@@ -253,7 +201,6 @@ def process_app(
     app_dir = work_dir / app_name
     app_dir.mkdir(parents=True, exist_ok=True)
 
-    # ── Download ─────────────────────────────────────────────────────────
     downloaded:       list[tuple[Path, dict]] = []
     failed_downloads: list[str]               = []
 
@@ -270,7 +217,6 @@ def process_app(
         write_state("Paused", "Download failure", f"{app_name}: {failed_downloads}")
         return False, None
 
-    # ── Extract versions ─────────────────────────────────────────────────
     apk_infos:          list[tuple[Path, APKInfo]] = []
     failed_extractions: list[str]                  = []
 
@@ -288,13 +234,11 @@ def process_app(
             )
             apk_infos.append((path, info))
             continue
-
         try:
             info = extract_apk_info(path)
         except Exception as exc:
             log.error(f"  Extraction exception for {meta['name']}: {exc}")
             info = None
-
         if info is None:
             failed_extractions.append(meta["name"])
         else:
@@ -302,8 +246,7 @@ def process_app(
 
     if failed_extractions:
         append_pending_overrides(
-            [{"filename": f, "app_name": app_name, "arch": "unknown"}
-             for f in failed_extractions]
+            [{"filename": f, "app_name": app_name, "arch": "unknown"} for f in failed_extractions]
         )
         notifier.extraction_failure(failed_extractions, app_name)
         write_state("Paused", "Extraction failure", f"{app_name}: {failed_extractions}")
@@ -313,19 +256,14 @@ def process_app(
         log.error(f"No APKInfo produced for {app_name}")
         return False, None
 
-    # ── All APKs must share the same versionName ──────────────────────────
-    version_counts               = Counter(i.version_name for _, i in apk_infos)
-    primary_version, _           = version_counts.most_common(1)[0]
+    version_counts     = Counter(i.version_name for _, i in apk_infos)
+    primary_version, _ = version_counts.most_common(1)[0]
     if len(version_counts) > 1:
-        log.warning(
-            f"Mixed versions in {app_name}: {dict(version_counts)}. "
-            f"Using majority: {primary_version}"
-        )
+        log.warning(f"Mixed versions in {app_name}: {dict(version_counts)}. Using majority: {primary_version}")
         apk_infos = [(p, i) for p, i in apk_infos if i.version_name == primary_version]
 
     version_name = primary_version
 
-    # ── Already released? ─────────────────────────────────────────────────
     cached = released_versions.get(app_name, {})
     if not FORCE_ALL and cached.get("version_name") == version_name:
         log.info(f"  {app_name} v{version_name} already released — nothing to do.")
@@ -333,14 +271,12 @@ def process_app(
 
     log.info(f"  New version detected: {app_name} v{version_name}")
 
-    # ── Rename APKs ───────────────────────────────────────────────────────
     renamed_pairs = finalize_filenames(app_name, apk_infos)
     final_files: list[Path] = []
 
     for src, new_name in renamed_pairs:
         dst = app_dir / new_name
         if src.resolve() == dst.resolve():
-            # File is already correctly named (MiXplorer ships pre-named APKs)
             log.info(f"  Already named correctly: {new_name}")
             final_files.append(dst)
         else:
@@ -348,30 +284,23 @@ def process_app(
             final_files.append(dst)
             log.info(f"  Renamed: {src.name}  →  {new_name}")
 
-    # ── Guard: detect double-version in filename ──────────────────────────
     for f in final_files:
         hits = re.findall(r"_v\d+[\.\d]*", f.name)
         if len(hits) > 1:
             log.error(f"  Double version detected in filename: {f.name}")
             write_state("Paused", "Filename validation failure", f.name)
-            notifier.critical_error(
-                "Double version in filename",
-                f"'{f.name}' contains the version twice. Fix config/rename_map.json."
-            )
+            notifier.critical_error("Double version in filename",
+                f"'{f.name}' contains the version twice. Fix config/rename_map.json.")
             return False, None
 
-    # ── Fetch changelog ───────────────────────────────────────────────────
-    # Use the largest APK as the source (all variants carry the same changelog)
     changelog_apk = max(final_files, key=lambda p: p.stat().st_size)
     changelog     = fetch_changelog(changelog_apk, version_name, app_name=app_name)
 
-    # ── Release metadata ──────────────────────────────────────────────────
     display      = descriptions.get(app_name, {}).get("display_name", get_display_name(app_name))
     release_name = f"{display} v{version_name}"
     tag          = f"{app_name}_v{version_name}"
     release_body = build_release_body(app_name, version_name, descriptions, changelog)
 
-    # ── Create / reuse GitHub release ─────────────────────────────────────
     existing = rm.get_release_by_tag(tag)
     if existing and not FORCE_ALL:
         log.info(f"  Release {tag} already exists on GitHub — skipping.")
@@ -384,14 +313,12 @@ def process_app(
         release    = rm.create_release(tag, release_name, release_body)
         release_id = release["id"]
 
-    # ── Upload assets ─────────────────────────────────────────────────────
     for file_path in final_files:
         try:
             rm.upload_asset(release_id, file_path)
         except Exception as exc:
             log.error(f"  Upload failed for {file_path.name}: {exc}")
 
-    # ── Post-upload verification ──────────────────────────────────────────
     expected = [f.name for f in final_files]
     if not rm.verify_release(release_id, expected):
         notifier.upload_failure(tag, expected)
@@ -406,8 +333,6 @@ def process_app(
         "updated_at":   datetime.now(timezone.utc).isoformat(),
     }
 
-
-# ── Entry point ───────────────────────────────────────────────────────────────
 
 def main() -> None:
     log.info("=" * 60)
@@ -434,7 +359,6 @@ def main() -> None:
 
     log.info(f"Previously released: {list(released_versions.keys())}")
 
-    # ── Discover Drive folders ────────────────────────────────────────────
     try:
         subfolders = drive.list_subfolders(ROOT_FOLDER_ID)
     except DriveError as exc:
@@ -445,12 +369,11 @@ def main() -> None:
 
     log.info(f"Drive folders found: {[f['name'] for f in subfolders]}")
 
-    # ── Map folder names → app names ──────────────────────────────────────
     app_folders: list[tuple[dict, str]] = []
     for folder in subfolders:
-        fname      = folder["name"]
+        fname       = folder["name"]
         clean_fname = _strip_version_suffix(fname)
-        lookup_key = fname if fname in rename_map else clean_fname
+        lookup_key  = fname if fname in rename_map else clean_fname
 
         if lookup_key in rename_map:
             app_name = rename_map[lookup_key]
@@ -465,7 +388,6 @@ def main() -> None:
 
         app_folders.append((folder, app_name))
 
-    # ── Process each app ──────────────────────────────────────────────────
     results: dict[str, str] = {}
     overall_success = True
 
@@ -513,7 +435,6 @@ def main() -> None:
                 log.error(f"✗ Failed: {app_name}")
                 break
 
-    # ── Persist results ───────────────────────────────────────────────────
     save_json(VERSIONS_FILE, released_versions)
 
     released_n = sum(1 for v in results.values() if v == "released")
