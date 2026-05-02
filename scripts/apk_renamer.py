@@ -3,13 +3,13 @@ Rename APKs to the standardised format:
 
     {AppName}_v{versionName}_B{versionCode}[-{arch_suffix}].apk
 
-Arch suffix rules (matches developer's convention exactly):
-    java      → (no suffix)   — pure Java, works on all architectures
+Arch suffix rules:
+    java      → (no suffix)
     arm       → -arm
     arm64     → -arm64
     x86       → -x86
     x64       → -x64
-    universal → -universal    — fat APK containing multiple native-lib sets
+    universal → -universal
 """
 import json
 import re
@@ -32,37 +32,80 @@ _ARCH_SUFFIX: dict[str, str] = {
     "universal": "-universal",
 }
 
+# Known folder-name → clean app-name overrides.
+# These take priority over the auto-mapping logic.
+_KNOWN_OVERRIDES: dict[str, str] = {
+    "MiXplorer":         "MiXplorer",
+    "MiXArchive":        "MiX_Archive",
+    "MiXCodecs":         "MiX_Codecs",
+    "MiXPlayerCodecs":   "MiX_Codecs",   # Drive folder includes "Player"
+    "MiX Player Codecs": "MiX_Codecs",
+    "MiXEncrypt":        "MiX_Encrypt",
+    "MiXImage":          "MiX_Image",
+    "MIXPDF":            "MiX_PDF",
+    "MiXPDF":            "MiX_PDF",
+    "MiXTagger":         "MiX_Tagger",
+}
+
 
 def load_rename_map() -> dict[str, str]:
-    with open(RENAME_MAP_PATH, encoding="utf-8") as fh:
-        return json.load(fh)
+    if RENAME_MAP_PATH.exists():
+        with open(RENAME_MAP_PATH, encoding="utf-8") as fh:
+            return json.load(fh)
+    return {}
 
 
 def save_rename_map(mapping: dict[str, str]) -> None:
+    RENAME_MAP_PATH.parent.mkdir(parents=True, exist_ok=True)
     with open(RENAME_MAP_PATH, "w", encoding="utf-8") as fh:
         json.dump(mapping, fh, indent=2, ensure_ascii=False)
     log.debug(f"Saved rename map ({len(mapping)} entries)")
 
 
+def _strip_version_suffix(name: str) -> str:
+    """
+    Strip trailing version suffixes from a folder name.
+
+    Examples:
+        'MiXplorer-v6.70.3'   →  'MiXplorer'
+        'MiXplorer_v6.70.3'   →  'MiXplorer'
+        'MiXplorer v6.70.3'   →  'MiXplorer'
+        'MiX_Archive-v3.20'   →  'MiX_Archive'
+        'MiXplorer'           →  'MiXplorer'  (unchanged)
+    """
+    return re.sub(r'[-_ ]v\d+(?:[.\d]+)*\s*$', '', name).strip()
+
+
 def auto_map_folder_name(folder_name: str) -> str:
     """
-    Convert an unknown Drive folder name to a standardised app name.
+    Convert a Drive folder name to a standardised app name.
 
-    Rules:
-      'MiXplorer'   →  'MiXplorer'   (special case: no underscore)
-      'MiXFoo'      →  'MiX_Foo'
-      'MiXFooBar'   →  'MiX_FooBar'
-      anything else →  spaces → underscores (last-resort fallback)
+    Priority order:
+    1. _KNOWN_OVERRIDES  (explicit, highest priority)
+    2. Rename map file   (previously saved auto-mappings)
+    3. Version-stripped name against _KNOWN_OVERRIDES
+    4. Auto-derive: MiX_Foo from MiXFoo
+    5. Sanitise fallback: spaces → underscores
     """
-    if folder_name == "MiXplorer":
+    # 1. Direct match in known overrides
+    if folder_name in _KNOWN_OVERRIDES:
+        return _KNOWN_OVERRIDES[folder_name]
+
+    # 2. Strip version suffix and try again
+    clean = _strip_version_suffix(folder_name)
+    if clean in _KNOWN_OVERRIDES:
+        return _KNOWN_OVERRIDES[clean]
+
+    # 3. Auto-derive: MiXplorer stays MiXplorer, MiXFoo → MiX_Foo
+    if clean == "MiXplorer":
         return "MiXplorer"
 
-    m = re.match(r"^(MiX)([A-Z].*)$", folder_name)
+    m = re.match(r"^(MiX)([A-Z].*)$", clean)
     if m:
         return f"{m.group(1)}_{m.group(2)}"
 
-    # Last-resort: sanitise to filesystem-safe name
-    return re.sub(r"\s+", "_", folder_name)
+    # 4. Last-resort sanitise
+    return re.sub(r"\s+", "_", clean)
 
 
 def get_display_name(app_name: str) -> str:
@@ -72,11 +115,10 @@ def get_display_name(app_name: str) -> str:
 
 def build_filename(app_name: str, info: APKInfo) -> str:
     """
-    Build the final APK filename for a single APK.
+    Build the final APK filename.
 
-    The caller is responsible for passing an APKInfo whose .arch has already
-    been finalized (e.g. 'java' for a universal pure-Java APK, 'arm64' for
-    an architecture-specific one, etc.).
+    Result: {app_name}_v{versionName}_B{versionCode}[-{arch}].apk
+    app_name must already be the clean name (e.g. 'MiXplorer', 'MiX_Archive').
     """
     suffix = _ARCH_SUFFIX.get(info.arch, f"-{info.arch}")
     return f"{app_name}_v{info.version_name}_B{info.version_code}{suffix}.apk"
@@ -86,12 +128,7 @@ def finalize_filenames(
     app_name: str,
     apk_infos: list[tuple[Path, APKInfo]],
 ) -> list[tuple[Path, str]]:
-    """
-    Determine the final filename for every APK variant of an app.
-
-    Sorting by versionCode (ascending) is used only for logging consistency.
-    The naming logic is driven purely by the detected arch type.
-    """
+    """Return (source_path, new_filename) pairs sorted by versionCode."""
     sorted_pairs = sorted(apk_infos, key=lambda x: _safe_int(x[1].version_code))
 
     results: list[tuple[Path, str]] = []
