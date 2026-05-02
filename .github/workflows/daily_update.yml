@@ -43,7 +43,7 @@ jobs:
           # ── Secret check ───────────────────────────────────────────────
           if [ "$HAS_GDRIVE_KEY" = "false" ]; then
             echo "::warning::GDRIVE_API_KEY secret is not configured."
-            echo "::warning::See DEBUG.md for setup instructions."
+            echo "::warning::See STATE.md for setup instructions."
             echo "should_run=false" >> "$GITHUB_OUTPUT"
             echo "state=MissingSecret" >> "$GITHUB_OUTPUT"
             exit 0
@@ -146,7 +146,6 @@ jobs:
                   STATE.md \
                   MANUAL_VERSIONS.md \
                   config/rename_map.json \
-                  logs/ \
                   2>/dev/null || true
 
           if git diff --staged --quiet; then
