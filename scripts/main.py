@@ -319,39 +319,40 @@ def process_app(
 
     log.info(f"  New version detected: {app_name} v{version_name}")
 
+# scripts/main.py  — replace the "Rename APKs" block (lines ~315-335)
+
     # ── Rename APKs ───────────────────────────────────────────────────────
     renamed_pairs = finalize_filenames(app_name, apk_infos)
 
     final_files: list[Path] = []
     for src, new_name in renamed_pairs:
         dst = app_dir / new_name
-        shutil.copy2(src, dst)
-        final_files.append(dst)
-        log.info(f"  Renamed: {src.name}  →  {new_name}")
+        if src.resolve() == dst.resolve():
+            # APK is already correctly named (e.g. MiXplorer ships pre-named APKs)
+            log.info(f"  Already named correctly: {new_name}")
+            final_files.append(dst)
+        else:
+            shutil.copy2(src, dst)
+            final_files.append(dst)
+            log.info(f"  Renamed: {src.name}  →  {new_name}")
 
     # ── Validate: no double-version in any filename ───────────────────────
     for f in final_files:
-        # Filename pattern must be: AppName_vX.Y.Z_BCODE[-arch].apk
-        # Detect if vX.Y.Z appears twice in the name
         version_occurrences = re.findall(r'_v\d+[\.\d]*', f.name)
         if len(version_occurrences) > 1:
-            log.error(
-                f"  DOUBLE VERSION DETECTED in filename: {f.name}  "
-                f"occurrences={version_occurrences}. "
-                "Check rename_map.json — app_name likely contains a version suffix."
-            )
+            log.error(f"  DOUBLE VERSION in filename: {f.name}")
             write_state("Paused", "Filename validation failure", f.name)
             notifier.critical_error(
                 "Double version in filename",
-                f"Filename '{f.name}' contains the version twice. "
-                "Update config/rename_map.json to map the Drive folder name "
-                "to a clean app name without version suffix."
+                f"'{f.name}' contains the version twice. "
+                "Fix config/rename_map.json."
             )
             return False, None
 
-    # ── Fetch changelog ───────────────────────────────────────────────────
-    # Only MiXplorer has a public XDA thread; add-ons use the same thread
-    changelog = fetch_xda_changelog(version_name)
+    # ── Fetch changelog (from APK itself) ─────────────────────────────────
+    # Use the first/largest APK as the source (they all have the same changelog)
+    changelog_apk = max(final_files, key=lambda p: p.stat().st_size)
+    changelog = fetch_changelog(changelog_apk, version_name)
 
     # ── Release title format: "MiX Archive v3.20" ─────────────────────────
     # NOTE: display_name already has spaces (e.g. "MiX Archive")
