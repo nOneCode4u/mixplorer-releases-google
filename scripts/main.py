@@ -22,12 +22,12 @@ import shutil
 import sys
 import tempfile
 import traceback
+import urllib.parse
 from collections import Counter
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Optional
 
-# ── Path setup ────────────────────────────────────────────────────────────────
 _SCRIPTS_DIR = Path(__file__).parent
 sys.path.insert(0, str(_SCRIPTS_DIR))
 
@@ -42,16 +42,17 @@ from apk_renamer import (
 )
 from release_manager import ReleaseManager, GitHubError
 from notifier import Notifier
+from changelog_fetcher import fetch_xda_changelog
 
 log = get_logger("main")
 
 # ── Environment ───────────────────────────────────────────────────────────────
-GDRIVE_API_KEY   = os.environ["GDRIVE_API_KEY"]
-GH_TOKEN         = os.environ["GH_TOKEN"]
-GH_REPO          = os.environ["GH_REPO"]
-ROOT_FOLDER_ID   = os.environ.get("GDRIVE_ROOT_FOLDER_ID", "1BfeK39boriHy-9q76eXLLqbCwfV17-Gv")
-FORCE_ALL        = os.environ.get("FORCE_ALL",  "false").lower() == "true"
-DEBUG_MODE       = os.environ.get("DEBUG_MODE", "false").lower() == "true"
+GDRIVE_API_KEY  = os.environ["GDRIVE_API_KEY"]
+GH_TOKEN        = os.environ["GH_TOKEN"]
+GH_REPO         = os.environ["GH_REPO"]           # e.g. "nOneCode4u/mixplorer-google-drive"
+ROOT_FOLDER_ID  = os.environ.get("GDRIVE_ROOT_FOLDER_ID", "1BfeK39boriHy-9q76eXLLqbCwfV17-Gv")
+FORCE_ALL       = os.environ.get("FORCE_ALL",  "false").lower() == "true"
+DEBUG_MODE      = os.environ.get("DEBUG_MODE", "false").lower() == "true"
 
 # ── Paths ─────────────────────────────────────────────────────────────────────
 VERSIONS_FILE        = Path("data/released_versions.json")
@@ -76,14 +77,7 @@ def save_json(path: Path, data) -> None:
 
 
 def load_manual_overrides() -> dict[str, dict]:
-    """
-    Parse MANUAL_VERSIONS.md for completed override entries.
-
-    Table format:
-        | filename.apk | versionName | versionCode | arch | AppName |
-
-    Skips rows that still contain 'FILL_ME', header rows, and separator rows.
-    """
+    """Parse MANUAL_VERSIONS.md for completed override entries."""
     overrides: dict[str, dict] = {}
     if not MANUAL_VERSIONS_FILE.exists():
         return overrides
@@ -99,7 +93,7 @@ def load_manual_overrides() -> dict[str, dict]:
         arch = parts[3] if len(parts) > 3 else "java"
         if "FILL_ME" in (vn, vc) or not vn or not vc:
             continue
-        if "Filename" in filename:   # Header row
+        if "Filename" in filename:
             continue
         overrides[filename] = {
             "version_name": vn,
@@ -111,9 +105,6 @@ def load_manual_overrides() -> dict[str, dict]:
 
 
 def append_pending_overrides(entries: list[dict]) -> None:
-    """
-    Add new 'FILL_ME' rows to the Pending section of MANUAL_VERSIONS.md.
-    """
     if not entries:
         return
 
@@ -132,91 +123,81 @@ def append_pending_overrides(entries: list[dict]) -> None:
         f"| {e['filename']} | FILL_ME | FILL_ME | {e.get('arch', 'java')} | {e['app_name']} |"
         for e in entries
     ]
-
-    # Insert after the pending table separator
     lines = content.splitlines()
     for i, line in enumerate(lines):
         if "## Pending" in line:
             for j in range(i, min(i + 6, len(lines))):
                 if "|---|" in lines[j]:
-                    lines = lines[: j + 1] + new_rows + lines[j + 1 :]
+                    lines = lines[: j + 1] + new_rows + lines[j + 1:]
                     MANUAL_VERSIONS_FILE.write_text("\n".join(lines), encoding="utf-8")
                     return
-    # Section not found → append
     MANUAL_VERSIONS_FILE.write_text(
-        content + "\n" + "\n".join(new_rows) + "\n",
-        encoding="utf-8",
+        content + "\n" + "\n".join(new_rows) + "\n", encoding="utf-8"
     )
+
+
+def _generate_obtainium_deep_link(app_name: str, display_name: str) -> str:
+    """
+    Generate a fully pre-configured Obtainium deep link for one app.
+    Uses the corrected tag prefix format: {app_name}_v
+    """
+    config = {
+        "id": f"github.com/{GH_REPO}/{app_name.lower().replace('_', '-')}",
+        "url": f"https://github.com/{GH_REPO}",
+        "author": "H. Parsa",
+        "name": display_name,
+        "preferredApkIndex": 0,
+        "additionalSettings": json.dumps({
+            "includePrereleases": False,
+            "fallbackToOlderReleases": True,
+            "filterReleaseTitlesByRegEx": f"{app_name}_v",
+            "filterReleaseNotesByRegEx": "",
+            "verifyLatestTag": False,
+            "dontSortReleasesList": True,
+            "autoApkFilterByArch": True,
+            "apkFilterRegEx": "",
+            "invertAPKFilter": False,
+        }),
+    }
+    encoded = urllib.parse.quote(
+        json.dumps(config, separators=(",", ":")), safe=""
+    )
+    return f"https://apps.obtainium.imranr.dev/redirect?r=obtainium://app/{encoded}"
 
 
 def build_release_body(
     app_name: str,
     version_name: str,
     descriptions: dict,
-    asset_names: list[str],
+    changelog: str,
 ) -> str:
+    """
+    Build the release description body.
+
+    Contains:
+      - App name heading (no version — version is already in the release title)
+      - Obtainium one-tap badge
+      - Changelog section
+    """
     info        = descriptions.get(app_name, {})
     display     = info.get("display_name", get_display_name(app_name))
-    description = info.get("description", "Android application by H. Parsa.")
     icon        = info.get("icon", "📦")
-    category    = info.get("category", "Android App")
-
-    def arch_label(fname: str) -> str:
-        """Human-readable architecture label from filename."""
-        fl = fname.lower()
-        if "-universal" in fl:
-            return "Universal · all architectures"
-        if "-arm64" in fl:
-            return "ARM 64-bit · arm64-v8a ⭐ Recommended"
-        if "-arm" in fl:
-            return "ARM 32-bit · armeabi-v7a"
-        if "-x64" in fl:
-            return "x86 64-bit · x86_64"
-        if "-x86" in fl:
-            return "x86 32-bit"
-        return "Universal · Pure-Java (all devices)"
-
-    def install_note(fname: str) -> str:
-        fl = fname.lower()
-        if "-arm64" in fl:
-            return "Best for most modern Android phones (2016+)"
-        if "-arm" in fl:
-            return "For older 32-bit ARM phones"
-        if "-x64" in fl:
-            return "For 64-bit x86 devices and modern emulators"
-        if "-x86" in fl:
-            return "For older 32-bit x86 devices and emulators"
-        if "-universal" in fl:
-            return "Works on any device; largest file size"
-        return "Works on all devices"
-
-    rows = "\n".join(
-        f"| [`{f}`]"
-        f"(https://github.com/nOneCode4u/mixplorer-releases-google/releases/download/{app_name}-v{version_name}/{f})"
-        f" | {arch_label(f)} | {install_note(f)} |"
-        for f in sorted(asset_names)
-    )
+    obtainium_url = _generate_obtainium_deep_link(app_name, display)
 
     return f"""\
 ## {icon} {display}
 
-{description}
+[![Get on Obtainium](https://img.shields.io/badge/Obtainium-Get%20App-7040D4?style=flat-square)]({obtainium_url})
 
 ---
 
-### Download
+### What's New
 
-| File | Architecture | Notes |
-|------|-------------|-------|
-{rows}
-
-> **Not sure which to choose?**  
-> Download **`-arm64`** — it works on virtually all Android phones made since 2016.  
-> If `-arm64` is not listed, download the variant with no suffix (Universal / Pure-Java).
+{changelog}
 
 ---
 
-*Category: {category} · Source: Official Google Drive · Mirrored automatically.*
+*Mirrored automatically from the developer's official Google Drive.*
 """
 
 
@@ -240,18 +221,17 @@ def process_app(
     Returns
     -------
     (success, release_info_dict | None)
-      success=True, release_info=None  → already up-to-date
-      success=True, release_info=dict  → new release created
-      success=False                    → error (state already set to Paused)
+      success=True,  release_info=None  → already up-to-date
+      success=True,  release_info=dict  → new release created
+      success=False                     → error (state set to Paused)
     """
     folder_id = folder_info["id"]
     log.info(f"{'─' * 50}")
     log.info(f"App: {app_name}  (Drive folder: {folder_info['name']})")
 
-    # ── List APKs ────────────────────────────────────────────────────────
     apk_metas = drive.list_apks(folder_id)
     if not apk_metas:
-        log.warning(f"No APKs found in folder for {app_name} — skipping.")
+        log.warning(f"No APKs found for {app_name} — skipping.")
         return True, None
 
     log.info(f"Found {len(apk_metas)} APK(s): {[m['name'] for m in apk_metas]}")
@@ -283,7 +263,7 @@ def process_app(
     for path, meta in downloaded:
         override = manual_overrides.get(meta["name"])
         if override:
-            log.info(f"  Using manual override for {meta['name']}")
+            log.info(f"  Manual override applied for {meta['name']}")
             info = APKInfo(
                 version_name  = override["version_name"],
                 version_code  = override["version_code"],
@@ -349,17 +329,48 @@ def process_app(
         final_files.append(dst)
         log.info(f"  Renamed: {src.name}  →  {new_name}")
 
-    # ── Create / reuse GitHub release ────────────────────────────────────
-    tag          = f"{app_name}-v{version_name}"
-    release_name = f"{get_display_name(app_name)} v{version_name}"
+    # ── Validate: no double-version in any filename ───────────────────────
+    for f in final_files:
+        # Filename pattern must be: AppName_vX.Y.Z_BCODE[-arch].apk
+        # Detect if vX.Y.Z appears twice in the name
+        version_occurrences = re.findall(r'_v\d+[\.\d]*', f.name)
+        if len(version_occurrences) > 1:
+            log.error(
+                f"  DOUBLE VERSION DETECTED in filename: {f.name}  "
+                f"occurrences={version_occurrences}. "
+                "Check rename_map.json — app_name likely contains a version suffix."
+            )
+            write_state("Paused", "Filename validation failure", f.name)
+            notifier.critical_error(
+                "Double version in filename",
+                f"Filename '{f.name}' contains the version twice. "
+                "Update config/rename_map.json to map the Drive folder name "
+                "to a clean app name without version suffix."
+            )
+            return False, None
+
+    # ── Fetch changelog ───────────────────────────────────────────────────
+    # Only MiXplorer has a public XDA thread; add-ons use the same thread
+    changelog = fetch_xda_changelog(version_name)
+
+    # ── Release title format: "MiX Archive v3.20" ─────────────────────────
+    # NOTE: display_name already has spaces (e.g. "MiX Archive")
+    # version_name is the clean version (e.g. "3.20")
+    # release_name = "{DisplayName} v{version}" — no duplication
+    display = descriptions.get(app_name, {}).get("display_name", get_display_name(app_name))
+    release_name = f"{display} v{version_name}"
+
+    # ── Tag format: AppName_vVersion (underscore, no dash before v) ───────
+    tag = f"{app_name}_v{version_name}"
+
     release_body = build_release_body(
-        app_name, version_name, descriptions,
-        [f.name for f in final_files],
+        app_name, version_name, descriptions, changelog
     )
 
+    # ── Create release ────────────────────────────────────────────────────
     existing = rm.get_release_by_tag(tag)
     if existing and not FORCE_ALL:
-        log.info(f"  Release {tag} already exists on GitHub — skipping.")
+        log.info(f"  Release {tag} already exists — skipping.")
         return True, None
 
     if existing and FORCE_ALL:
@@ -370,19 +381,16 @@ def process_app(
         release_id = release["id"]
 
     # ── Upload assets ─────────────────────────────────────────────────────
-    upload_errors: list[str] = []
     for file_path in final_files:
         try:
             rm.upload_asset(release_id, file_path)
         except Exception as exc:
             log.error(f"  Upload failed for {file_path.name}: {exc}")
-            upload_errors.append(file_path.name)
 
     # ── Post-upload verification ──────────────────────────────────────────
     expected = [f.name for f in final_files]
     if not rm.verify_release(release_id, expected):
-        missing = [n for n in expected if n not in set()]
-        notifier.upload_failure(tag, missing)
+        notifier.upload_failure(tag, expected)
         return False, None
 
     return True, {
@@ -423,7 +431,7 @@ def main() -> None:
     manual_overrides  = load_manual_overrides()
     rename_map        = load_rename_map()
 
-    log.info(f"Previously released apps: {list(released_versions.keys())}")
+    log.info(f"Previously released: {list(released_versions.keys())}")
 
     # ── Discover Drive folders ────────────────────────────────────────────
     try:
@@ -434,9 +442,9 @@ def main() -> None:
         notifier.critical_error("Listing Drive root folder", str(exc))
         sys.exit(1)
 
-    log.info(f"Drive app folders: {[f['name'] for f in subfolders]}")
+    log.info(f"Drive folders found: {[f['name'] for f in subfolders]}")
 
-    # Map folder names → app names (auto-discover new apps)
+    # ── Map folder names → app names ──────────────────────────────────────
     app_folders: list[tuple[dict, str]] = []
     for folder in subfolders:
         fname = folder["name"]
@@ -444,7 +452,7 @@ def main() -> None:
             app_name = rename_map[fname]
         else:
             app_name = auto_map_folder_name(fname)
-            log.info(f"Auto-mapped new folder: {fname!r} → {app_name!r}")
+            log.info(f"Auto-mapped: {fname!r} → {app_name!r}")
             rename_map[fname] = app_name
             save_rename_map(rename_map)
             notifier.new_app_discovered(fname, app_name)
@@ -475,14 +483,14 @@ def main() -> None:
                 write_state("Error", f"API error in {app_name}", str(exc))
                 notifier.critical_error(app_name, traceback.format_exc())
                 results[app_name] = "api_error"
-                overall_success = False
+                overall_success   = False
                 break
             except Exception as exc:
                 log.exception(f"Unexpected error for {app_name}: {exc}")
                 write_state("Error", f"Unexpected error in {app_name}", str(exc))
                 notifier.critical_error(app_name, traceback.format_exc())
                 results[app_name] = "exception"
-                overall_success = False
+                overall_success   = False
                 break
 
             if ok and release_info:
@@ -494,18 +502,18 @@ def main() -> None:
                 log.info(f"○ No update: {app_name}")
             else:
                 results[app_name] = "failed"
-                overall_success = False
+                overall_success   = False
                 log.error(f"✗ Failed: {app_name}")
-                break    # State already set to Paused inside process_app
+                break
 
     # ── Persist results ───────────────────────────────────────────────────
     save_json(VERSIONS_FILE, released_versions)
 
     # ── Summary ───────────────────────────────────────────────────────────
-    released_n  = sum(1 for v in results.values() if v == "released")
-    skipped_n   = sum(1 for v in results.values() if v == "no_update")
-    failed_n    = sum(1 for v in results.values() if v not in ("released", "no_update"))
-    summary     = f"Released={released_n}  Skipped={skipped_n}  Failed={failed_n}"
+    released_n = sum(1 for v in results.values() if v == "released")
+    skipped_n  = sum(1 for v in results.values() if v == "no_update")
+    failed_n   = sum(1 for v in results.values() if v not in ("released", "no_update"))
+    summary    = f"Released={released_n}  Skipped={skipped_n}  Failed={failed_n}"
 
     log.info("=" * 60)
     log.info(f"Pipeline complete — {summary}")
@@ -513,10 +521,7 @@ def main() -> None:
     log.info("=" * 60)
 
     if overall_success:
-        if state == "Resumed":
-            log.info("State was Resumed → resetting to Running")
         write_state("Running", "Success", summary)
-    # (Failure state was already written inside process_app)
 
     sys.exit(0 if overall_success else 1)
 
