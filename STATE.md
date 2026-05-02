@@ -6,7 +6,7 @@
 |-----|-------|
 | **Last Updated** | 2026-05-02 07:18:13 UTC |
 | **Last Status**  | Running |
-| **Details**      | PosixPath('/tmp/apk_update_8c7_ss7r/MiXplorer/MiXplorer_v6.70.3_B26022811-arm.apk') and PosixPath('/tmp/apk_update_8c7_ss7r/MiXplorer/MiXplorer_v6.70.3_B26022811-arm.apk') are the same file |
+| **Details**      |  |
 
 ---
 
