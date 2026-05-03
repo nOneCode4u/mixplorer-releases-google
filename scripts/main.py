@@ -159,26 +159,26 @@ def _generate_obtainium_deep_link(app_name: str, display_name: str) -> str:
     return f"https://apps.obtainium.imranr.dev/redirect?r=obtainium://app/{encoded}"
 
 
-def build_release_body(app_name: str, version_name: str, descriptions: dict, changelog: str) -> str:
+
+
+def build_release_body(app_name: str, version_name: str, descriptions: dict, changelog: Optional[str]) -> str:
     info          = descriptions.get(app_name, {})
     display       = info.get("display_name", get_display_name(app_name))
     icon          = info.get("icon", "📦")
     obtainium_url = _generate_obtainium_deep_link(app_name, display)
-    return f"""\
-## {icon} {display}
 
-[![Get on Obtainium](https://img.shields.io/badge/Obtainium-Get%20App-7040D4?style=flat-square)]({obtainium_url})
+    if changelog:
+        middle = f"### What's New\n\n{changelog}\n\n---\n\n"
+    else:
+        middle = ""
 
----
-
-### What's New
-
-{changelog}
-
----
-
-*Mirrored from the developer's official Google Drive.*
-"""
+    return (
+        f"## {icon} {display}\n\n"
+        f"[![Get on Obtainium](https://img.shields.io/badge/Obtainium-Get%20App-7040D4?style=flat-square)]({obtainium_url})\n\n"
+        f"---\n\n"
+        f"{middle}"
+        f"*Mirrored from the developer's official Google Drive.*\n"
+    )
 
 
 def process_app(

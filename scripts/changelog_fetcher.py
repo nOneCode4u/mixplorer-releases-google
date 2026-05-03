@@ -1,16 +1,20 @@
 """
-Changelog fetcher for MiXplorer and add-ons.
+Changelog fetcher — APKMirror release pages.
 
-Sources (in priority order):
-  1. APKMirror release page — "APK Notes" section
-     Parses the plain-text changelog the developer publishes with each upload.
-  2. APK zip assets — searches the APK's bundled asset files
-  3. Fallback — a short message with source link
+URL pattern (APKMirror):
+  https://www.apkmirror.com/apk/{dev-slug}/{app-slug}/{release-slug}-release/#whatsnew
+
+The "What's New" content sits inside the element with id="whatsnew" on the release page.
+It is plain HTML, no JavaScript rendering needed.
+
+Strategy:
+  1. Build the release page URL from app_name + version_name.
+  2. Fetch the page and parse the #whatsnew section.
+  3. If anything fails (HTTP error, parse failure, timeout) → return None.
+     Callers must treat None as "no changelog available" and omit it silently.
 """
-import os
 import re
 import time
-import zipfile
 from pathlib import Path
 from typing import Optional
 
@@ -20,20 +24,23 @@ from logger import get_logger
 
 log = get_logger(__name__)
 
-AAPT_PATH: str = os.environ.get("AAPT_PATH", "aapt")
+_BASE = "https://www.apkmirror.com"
 
-# APKMirror app slugs per app_name key
-_APKMIRROR_SLUGS: dict[str, str] = {
-    "MiXplorer":  "hootan-parsa/mixplorer-hootanparsa",
-    "MiX_Archive": "hootan-parsa/mix-archive",
-    "MiX_Codecs":  "hootan-parsa/mix-codecs",
-    "MiX_Encrypt": "hootan-parsa/mix-encrypt",
-    "MiX_Image":   "hootan-parsa/mix-image",
-    "MiX_PDF":     "hootan-parsa/mix-pdf",
-    "MiX_Tagger":  "hootan-parsa/mix-tagger",
+# Per-app configuration:
+#   "app-slug"      : the folder slug in the APKMirror URL
+#   "release-prefix": the slug prefix used in the release page URL
+#   (most apps use the same value for both; Codecs is the exception)
+_APP_CONFIG: dict[str, dict] = {
+    "MiXplorer":   {"slug": "mixplorer-hootanparsa",  "prefix": "mixplorer"},
+    "MiX_Archive": {"slug": "mix-archive",             "prefix": "mix-archive"},
+    "MiX_Codecs":  {"slug": "mix-codecs",              "prefix": "mix-codecs-mixplorer-addon"},
+    "MiX_Encrypt": {"slug": "mix-encrypt",             "prefix": "mix-encrypt"},
+    "MiX_Image":   {"slug": "mix-image",               "prefix": "mix-image"},
+    "MiX_PDF":     {"slug": "mix-pdf",                 "prefix": "mix-pdf"},
+    "MiX_Tagger":  {"slug": "mix-tagger",              "prefix": "mix-tagger"},
 }
 
-_APKMIRROR_BASE = "https://www.apkmirror.com"
+_DEV_SLUG = "hootan-parsa"
 
 _HEADERS = {
     "User-Agent": (
@@ -41,237 +48,143 @@ _HEADERS = {
         "AppleWebKit/537.36 (KHTML, like Gecko) "
         "Chrome/124.0 Mobile Safari/537.36"
     ),
+    "Accept":          "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
     "Accept-Language": "en-US,en;q=0.9",
-    "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
-    "Referer": "https://www.apkmirror.com/",
+    "Referer":         "https://www.apkmirror.com/",
 }
 
 _TIMEOUT = 20
 
-_XDA_URL = (
-    "https://xdaforums.com/t/"
-    "app-2-3-mixplorer-v6-x-released-fully-featured-file-manager.1523691/"
-    "post-23374098"
-)
 
-_ASSET_PATHS = [
-    "assets/changelog", "assets/changelog.txt", "assets/CHANGELOG",
-    "assets/changes", "assets/changes.txt", "assets/whatsnew",
-    "assets/whatsnew.txt", "assets/release_notes.txt",
-    "res/raw/changelog", "res/raw/changes", "res/raw/whatsnew",
-]
-
-_CHANGELOG_KEYWORDS = [
-    "changelog", "changes", "whatsnew", "what_is_new", "release_notes",
-]
+def _version_to_slug(version_name: str) -> str:
+    """'6.70.3' → '6-70-3',  '1.0' → '1-0',  '2.9' → '2-9'"""
+    return version_name.replace(".", "-")
 
 
-def fetch_changelog(apk_path: Path, version_name: str, app_name: str = "MiXplorer") -> str:
+def _derive_app_slug(app_name: str) -> str:
     """
-    Fetch changelog for *version_name*. Always returns a non-empty string.
+    For unknown future add-ons, derive a best-guess APKMirror app slug.
+
+    Rule: 'MiX_NewName' → 'mix-newname'  (lowercase, underscore→hyphen)
     """
-    log.info(f"Fetching changelog: {app_name} v{version_name}")
-
-    # 1. APKMirror
-    result = _from_apkmirror(app_name, version_name)
-    if result:
-        return result
-
-    # 2. APK assets
-    result = _from_apk_assets(apk_path, version_name)
-    if result:
-        return result
-
-    # 3. Fallback
-    log.info(f"  No changelog found for {app_name} v{version_name} — using fallback")
-    slug = _APKMIRROR_SLUGS.get(app_name)
-    if slug:
-        url = f"{_APKMIRROR_BASE}/apk/{slug}/"
-        return f"See [APKMirror]({url}) for release notes."
-    return f"See the [XDA thread]({_XDA_URL}) for release notes."
+    return app_name.lower().replace("_", "-")
 
 
-def _apkmirror_release_url(slug: str, version_name: str) -> str:
+def _build_url(app_name: str, version_name: str) -> str:
+    """Build the APKMirror release page URL for the given app and version."""
+    ver = _version_to_slug(version_name)
+
+    if app_name in _APP_CONFIG:
+        cfg    = _APP_CONFIG[app_name]
+        slug   = cfg["slug"]
+        prefix = cfg["prefix"]
+    else:
+        # Future add-on — auto-derive
+        slug   = _derive_app_slug(app_name)
+        prefix = slug
+
+    return f"{_BASE}/apk/{_DEV_SLUG}/{slug}/{prefix}-{ver}-release/"
+
+
+def _fetch_whatsnew(url: str) -> Optional[str]:
     """
-    Build the APKMirror release page URL.
-    Pattern: /apk/{slug}/{app-slug}-{version}-release/
-    The app slug is the last part of the developer/app path.
-    Version dots are kept as-is (APKMirror uses dashes for some, dots for others).
-    We try both formats.
+    Fetch *url* and extract the text content of the #whatsnew section.
+    Returns the raw text block or None on any failure.
     """
-    app_slug = slug.split("/")[-1]
-    # APKMirror release URLs use the version with dots replaced by dashes
-    ver_dashes = version_name.replace(".", "-")
-    return (
-        f"{_APKMIRROR_BASE}/apk/{slug}/"
-        f"{app_slug}-{ver_dashes}-release/"
-    )
-
-
-def _from_apkmirror(app_name: str, version_name: str) -> Optional[str]:
-    """Fetch the APK Notes section from APKMirror for the given version."""
-    slug = _APKMIRROR_SLUGS.get(app_name)
-    if not slug:
-        return None
-
-    url = _apkmirror_release_url(slug, version_name)
-    log.debug(f"  APKMirror URL: {url}")
-
     try:
-        time.sleep(2)   # Polite delay — avoid rate limiting
+        time.sleep(1.5)  # polite delay
         resp = requests.get(url, headers=_HEADERS, timeout=_TIMEOUT, allow_redirects=True)
 
         if resp.status_code == 404:
-            log.info(f"  APKMirror: no page for {app_name} v{version_name} (404)")
+            log.debug(f"  APKMirror 404: {url}")
             return None
         if resp.status_code != 200:
-            log.warning(f"  APKMirror returned HTTP {resp.status_code} for {url}")
+            log.warning(f"  APKMirror HTTP {resp.status_code}: {url}")
             return None
 
-        return _parse_apkmirror_notes(resp.text, version_name)
+        return _parse_whatsnew(resp.text)
 
     except requests.RequestException as exc:
-        log.warning(f"  APKMirror fetch failed: {exc}")
+        log.warning(f"  APKMirror fetch error: {exc}")
         return None
 
 
-def _parse_apkmirror_notes(html: str, version_name: str) -> Optional[str]:
+def _parse_whatsnew(html: str) -> Optional[str]:
     """
-    Extract the 'APK Notes' / changelog section from APKMirror HTML.
+    Extract the What's New text from APKMirror's release page HTML.
 
-    APKMirror stores notes in a <div class="apk-notes"> or inside
-    a <div class="notes"> block as plain text with • bullets.
-    The content is in the page source without requiring JavaScript.
+    APKMirror uses:  <div ... id="whatsnew">...</div>
+    The content is plain text bullet points separated by <br> tags.
     """
-    # Try to find the notes block
-    # APKMirror pattern: "APK Notes:" or "From version X.Y.Z:" followed by bullet points
-    patterns = [
-        # Standard notes div
-        r'class="apk-notes"[^>]*>(.*?)</div>',
-        r'class="notes"[^>]*>(.*?)</div>',
-        # "From version X.Y.Z:" heading in the notes
-        r'(?:From version|APK Notes:?)[^<]*(?:</[^>]+>)?\s*<p[^>]*>(.*?)</p>',
-        # Plain bullet section
-        r'(?:v' + re.escape(version_name) + r'[^:]*:?)((?:\s*[•\-\*].+)+)',
-    ]
-
-    for pattern in patterns:
-        m = re.search(pattern, html, re.DOTALL | re.IGNORECASE)
-        if m:
-            raw = m.group(1)
-            cleaned = _clean_html_notes(raw, version_name)
-            if cleaned and len(cleaned) > 20:
-                log.info(f"  APKMirror: changelog extracted ({len(cleaned)} chars)")
-                return cleaned
-
-    # Broader fallback: look for version number followed by bullet points anywhere
-    ver_pattern = re.compile(
-        rf'v{re.escape(version_name)}'
-        rf'[_\w]*:?\s*\n?((?:\s*[•\-\*].+\n?)+)',
-        re.IGNORECASE,
+    # Find the whatsnew div by id
+    m = re.search(
+        r'id=["\']whatsnew["\'][^>]*>(.*?)</div>',
+        html,
+        re.DOTALL | re.IGNORECASE,
     )
-    m = ver_pattern.search(html)
-    if m:
-        cleaned = _clean_html_notes(m.group(1), version_name)
-        if cleaned:
-            log.info(f"  APKMirror: version-matched changelog extracted")
-            return cleaned
-
-    log.info(f"  APKMirror: page found but no parseable notes for v{version_name}")
-    return None
-
-
-def _clean_html_notes(raw: str, version_name: str) -> Optional[str]:
-    """Strip HTML tags, normalise bullets, return Markdown list or None."""
-    # Remove HTML tags
-    text = re.sub(r"<[^>]+>", " ", raw)
-    # Decode common HTML entities
-    text = (text.replace("&bull;", "•").replace("&amp;", "&")
-                .replace("&lt;", "<").replace("&gt;", ">")
-                .replace("&#8226;", "•").replace("&nbsp;", " "))
-    text = re.sub(r"\s+", " ", text).strip()
-
-    lines = []
-    for part in re.split(r"(?=[•\-\*])", text):
-        part = part.strip()
-        if not part:
-            continue
-        part = re.sub(r"^[•\-\*]\s*", "", part).strip()
-        if len(part) > 3:
-            lines.append(f"- {part}")
-
-    return "\n".join(lines) if lines else None
-
-
-def _from_apk_assets(apk_path: Path, version_name: str) -> Optional[str]:
-    """Search APK zip for changelog text files in assets/ or res/raw/."""
-    try:
-        with zipfile.ZipFile(apk_path, "r") as zf:
-            names_map = {n.lower(): n for n in zf.namelist()}
-            for candidate in _ASSET_PATHS:
-                actual = names_map.get(candidate.lower())
-                if not actual:
-                    continue
-                try:
-                    raw = zf.read(actual).decode("utf-8", errors="replace").strip()
-                    if len(raw) > 20:
-                        section = _extract_version_section(raw, version_name)
-                        result = _format_text_changelog(section or raw[:3000])
-                        if result:
-                            return result
-                except Exception:
-                    continue
-
-            # Broad keyword search
-            for lower_name, actual_name in names_map.items():
-                basename = lower_name.split("/")[-1]
-                basename = re.sub(r'\.(txt|md)$', '', basename)
-                if basename in _CHANGELOG_KEYWORDS:
-                    try:
-                        raw = zf.read(actual_name).decode("utf-8", errors="replace").strip()
-                        if len(raw) > 20:
-                            section = _extract_version_section(raw, version_name)
-                            return _format_text_changelog(section or raw[:3000])
-                    except Exception:
-                        continue
-    except Exception as exc:
-        log.debug(f"APK asset search failed: {exc}")
-    return None
-
-
-_CHANGELOG_KEYWORDS = {
-    "changelog", "changes", "whatsnew", "what_is_new",
-    "release_notes", "new_features", "update_log",
-}
-
-
-def _extract_version_section(text: str, version_name: str) -> Optional[str]:
-    pattern = re.compile(
-        rf'^[v\s]*{re.escape(version_name)}[^\n]*$',
-        re.IGNORECASE | re.MULTILINE,
-    )
-    match = pattern.search(text)
-    if not match:
+    if not m:
+        # Broader fallback: look for a <section> or any block containing #whatsnew anchor
+        m = re.search(
+            r'(?:whatsnew|what.s.new)[^>]*>\s*<[^>]+>(.*?)</(?:div|section|p)>',
+            html,
+            re.DOTALL | re.IGNORECASE,
+        )
+    if not m:
         return None
-    start = match.start()
-    next_ver = re.compile(r'^[v\s]*\d+\.\d+', re.MULTILINE)
-    next_m = next_ver.search(text, match.end() + 1)
-    end = next_m.start() if next_m else len(text)
-    section = text[start:end].strip()
-    return section if len(section) > 10 else None
+
+    raw = m.group(1)
+    return _clean_html(raw)
 
 
-def _format_text_changelog(text: str) -> Optional[str]:
-    if not text:
-        return None
+def _clean_html(raw: str) -> Optional[str]:
+    """
+    Convert raw HTML snippet to clean Markdown bullet list.
+    Handles <br>, <p>, bullet characters.
+    """
+    # Replace <br> and <p> variants with newlines
+    text = re.sub(r"<br\s*/?>", "\n", raw, flags=re.IGNORECASE)
+    text = re.sub(r"</p>", "\n", text, flags=re.IGNORECASE)
+    text = re.sub(r"<p[^>]*>", "", text, flags=re.IGNORECASE)
+    # Strip remaining HTML tags
+    text = re.sub(r"<[^>]+>", "", text)
+    # Decode HTML entities
+    text = (text
+            .replace("&bull;", "•")
+            .replace("&amp;", "&")
+            .replace("&lt;", "<")
+            .replace("&gt;", ">")
+            .replace("&#8226;", "•")
+            .replace("&nbsp;", " "))
+    text = re.sub(r"\s+", " ", text)
+
+    # Split into lines on bullet characters or newlines
     lines = []
-    for line in text.splitlines():
-        stripped = line.strip()
-        if not stripped:
-            continue
-        stripped = re.sub(r'^[-•*·▪▸➤→\u2022]\s*', '- ', stripped)
-        if not stripped.startswith('- ') and not stripped.startswith('#'):
-            stripped = f"- {stripped}"
-        lines.append(stripped)
-    result = "\n".join(lines)
-    return result if result else None
+    for chunk in re.split(r"[\n\r]+|(?=\s*[•\-\*·▪])", text):
+        chunk = chunk.strip()
+        chunk = re.sub(r"^[•\-\*·▪▸➤→\u2022]\s*", "", chunk).strip()
+        if len(chunk) > 3:
+            lines.append(f"- {chunk}")
+
+    if not lines:
+        return None
+
+    return "\n".join(lines)
+
+
+def fetch_changelog(apk_path: Path, version_name: str, app_name: str = "MiXplorer") -> Optional[str]:
+    """
+    Fetch changelog for *app_name* version *version_name* from APKMirror.
+
+    Returns a Markdown-formatted string on success, None if unavailable.
+    Callers should treat None as "omit changelog section" — never show an error message.
+    """
+    url = _build_url(app_name, version_name)
+    log.info(f"Fetching changelog: {app_name} v{version_name} → {url}")
+
+    result = _fetch_whatsnew(url)
+    if result:
+        log.info(f"  Changelog found ({len(result.splitlines())} line(s))")
+    else:
+        log.info(f"  No changelog found for {app_name} v{version_name} — will be omitted")
+
+    return result
