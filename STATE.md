@@ -4,28 +4,27 @@
 
 | Key | Value |
 |-----|-------|
-| **Last Updated** | — |
-| **Last Status**  | — |
-| **Details**      | — |
+| **Last Updated** | 2026-05-03 08:09:26 UTC |
+| **Last Status**  | Success |
+| **Details**      | Released=7  Skipped=0  Failed=0 |
 
 ---
 
-## Control
+## Control Reference
 
-**To resume after a failure:** fix the issue → change `Paused` → `Resumed` above → save file.
+### Resume After Pause
+1. Resolve the open GitHub Issue that describes the problem.
+2. If version extraction failed, fill in `MANUAL_VERSIONS.md`.
+3. Change **`Paused`** → **`Resumed`** in the HTML comment above (line 3).
+4. The next scheduled run will execute, then auto-reset to `Running`.
 
-**To force a full re-run:** Actions tab → Daily APK Update Check → Run workflow → enable "Force re-process all apps".
+### Force a Manual Run
+Go to **Actions → Daily APK Update Check → Run workflow**.
 
-**To set up `GDRIVE_API_KEY`:**
-1. Go to [Google Cloud Console](https://console.cloud.google.com/) → create a project.
-2. Enable **Google Drive API** (APIs & Services → Library).
-3. APIs & Services → Credentials → **+ CREATE CREDENTIALS** → **API key**.
-4. Restrict key to Google Drive API only.
-5. In this repo: Settings → Secrets and variables → Actions → New repository secret → Name: `GDRIVE_API_KEY`.
-
+### State Definitions
 | State | Meaning |
 |-------|---------|
-| `Running` | Normal — daily runs active |
-| `Paused` | Fix required — see open issue |
-| `Resumed` | Will run once, then resets to `Running` |
-| `Error` | Check Actions log |
+| `Running`  | Normal — scheduled runs active |
+| `Paused`   | Manual intervention required — see linked Issue |
+| `Resumed`  | Will execute once, then auto-reset to `Running` |
+| `Error`    | Critical failure — inspect Actions logs |
