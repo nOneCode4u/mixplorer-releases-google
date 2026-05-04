@@ -4,9 +4,9 @@
 
 | Key | Value |
 |-----|-------|
-| **Last Updated** | 2026-05-03 08:09:26 UTC |
+| **Last Updated** | 2026-05-04 08:11:54 UTC |
 | **Last Status**  | Success |
-| **Details**      | Released=7  Skipped=0  Failed=0 |
+| **Details**      | Released=0  Skipped=7  Failed=0 |
 
 ---
 
