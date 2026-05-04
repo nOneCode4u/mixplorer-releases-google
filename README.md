@@ -1,6 +1,6 @@
-# MiXplorer · Google Drive Mirror 
+# MiXplorer · Google Drive Mirror
 
-> Mirror of **[MiXplorer](https://mixplorer.com/)** and all official add-ons by [H. Parsa](https://xdaforums.com/m/hootan-parsa.3515296/), sourced from the developer's Google Drive. Updated daily.
+> Mirror of **[MiXplorer](https://xdaforums.com/t/app-2-3-mixplorer-v6-x-released-fully-featured-file-manager.1523691/)** and all official add-ons by [H. Parsa](https://xdaforums.com/m/hootan-parsa.3515296/), sourced from the developer's Google Drive. Updated daily.
 
 [![Total Downloads](https://img.shields.io/github/downloads/nOneCode4u/mixplorer-google-drive/total?style=for-the-badge&logo=android&logoColor=white&color=3DDC84)](https://github.com/nOneCode4u/mixplorer-google-drive/releases)
 [![Latest Release](https://img.shields.io/github/v/release/nOneCode4u/mixplorer-google-drive?style=for-the-badge&logo=github&color=0969da&label=Latest)](https://github.com/nOneCode4u/mixplorer-google-drive/releases/latest)
@@ -11,12 +11,6 @@
 ## Available Apps
 
 All APKs are original, unmodified releases published by the developer.
-
-[![Android](https://img.shields.io/badge/Platform-Android-3DDC84?style=for-the-badge&logo=android&logoColor=white)](https://www.android.com/)
-[![Google Drive](https://img.shields.io/badge/Source-Google%20Drive-4285F4?style=for-the-badge&logo=googledrive&logoColor=white)](https://drive.google.com/drive/folders/1BfeK39boriHy-9q76eXLLqbCwfV17-Gv)
-[![Unofficial Mirror](https://img.shields.io/badge/Type-Unofficial%20Mirror-orange?style=for-the-badge)](https://github.com/nOneCode4u)
-[![No Ads](https://img.shields.io/badge/Ads-None-success?style=for-the-badge&logo=adblock)](https://mixplorer.com/)
-[![Open Source](https://img.shields.io/badge/Open%20Source-Yes-0d1117?style=for-the-badge&logo=opensourceinitiative&logoColor=3DA639)](https://github.com/nOneCode4u/mixplorer-google-drive)
 
 | App | Description | Releases |
 |-----|-------------|----------|
@@ -45,12 +39,11 @@ All APKs are original, unmodified releases published by the developer.
 
 ---
 
-[![Get it on Obtainium](https://github.com/ImranR98/Obtainium/blob/main/assets/graphics/badge_obtainium.png?raw=true)](https://github.com/ImranR98/Obtainium)
+## Get it on Obtainium
 
 [Obtainium](https://github.com/ImranR98/Obtainium) tracks GitHub releases and updates your apps — no Play Store required.
 
-> **Install Obtainium first:**
-> [![GitHub](https://img.shields.io/badge/GitHub-Releases-181717?style=flat-square&logo=github)](https://github.com/ImranR98/Obtainium/releases) [![F-Droid](https://img.shields.io/badge/F--Droid-Available-1976D2?style=flat-square&logo=fdroid&logoColor=white)](https://f-droid.org/packages/dev.imranr.obtainium.fdroid/) [![IzzyOnDroid](https://img.shields.io/badge/IzzyOnDroid-Available-orange?style=flat-square)](https://apt.izzysoft.de/fdroid/index/apk/dev.imranr.obtainium)
+> **Install Obtainium first:** [GitHub Releases](https://github.com/ImranR98/Obtainium/releases) · [F-Droid](https://f-droid.org/packages/dev.imranr.obtainium.fdroid/) · [IzzyOnDroid](https://apt.izzysoft.de/fdroid/index/apk/dev.imranr.obtainium)
 
 | App | Add to Obtainium |
 |-----|-----------------|
@@ -62,14 +55,11 @@ All APKs are original, unmodified releases published by the developer.
 | 📄 **MiX PDF** | [![Obtainium](https://img.shields.io/badge/Obtainium-Get%20App-7040D4?style=flat-square)](https://apps.obtainium.imranr.dev/redirect?r=obtainium://app/%7B%22id%22%3A%20%22com.mixplorer.addon.pdf%22%2C%22url%22%3A%20%22https%3A%2F%2Fgithub.com%2FnOneCode4u%2Fmixplorer-google-drive%22%2C%22author%22%3A%20%22nOneCode4u%22%2C%22name%22%3A%20%22MiX%20PDF%22%2C%22additionalSettings%22%3A%20%22%7B%5C%22includePrereleases%5C%22%3Afalse%2C%5C%22fallbackToOlderReleases%5C%22%3Atrue%2C%5C%22filterReleaseTitlesByRegEx%5C%22%3A%5C%22PDF%5C%22%2C%5C%22filterReleaseNotesByRegEx%5C%22%3A%5C%22%5C%22%2C%5C%22verifyLatestTag%5C%22%3Afalse%2C%5C%22sortMethodChoice%5C%22%3A%5C%22date%5C%22%2C%5C%22useLatestAssetDateAsReleaseDate%5C%22%3Afalse%2C%5C%22releaseTitleAsVersion%5C%22%3Afalse%2C%5C%22trackOnly%5C%22%3Afalse%2C%5C%22versionExtractionRegEx%5C%22%3A%5C%22%5C%22%2C%5C%22matchGroupToUse%5C%22%3A%5C%22%5C%22%2C%5C%22versionDetection%5C%22%3Atrue%2C%5C%22releaseDateAsVersion%5C%22%3Afalse%2C%5C%22useVersionCodeAsOSVersion%5C%22%3Afalse%2C%5C%22apkFilterRegEx%5C%22%3A%5C%22%5C%22%2C%5C%22invertAPKFilter%5C%22%3Afalse%2C%5C%22autoApkFilterByArch%5C%22%3Atrue%2C%5C%22appName%5C%22%3A%5C%22MiX%20PDF%5C%22%2C%5C%22appAuthor%5C%22%3A%5C%22nOneCode4u%5C%22%2C%5C%22shizukuPretendToBeGooglePlay%5C%22%3Atrue%2C%5C%22allowInsecure%5C%22%3Atrue%2C%5C%22exemptFromBackgroundUpdates%5C%22%3Afalse%2C%5C%22skipUpdateNotifications%5C%22%3Afalse%2C%5C%22about%5C%22%3A%5C%22PDF%20viewer%20add-on%20%E2%80%94%20render%20and%20navigate%20PDF%20documents%20of%20any%20length%20directly%20inside%20MiXplorer.%20Supports%20text%20selection%2C%20zoom%2C%20and%20multi-page%20navigation.%20Requires%20MiXplorer.%5C%22%2C%5C%22refreshBeforeDownload%5C%22%3Atrue%2C%5C%22includeZips%5C%22%3Afalse%2C%5C%22zippedApkFilterRegEx%5C%22%3A%5C%22%5C%22%7D%22%2C%22overrideSource%22%3A%20%22GitHub%22%2C%22allowIdChange%22%3A%20true%7D) |
 | 🏷️ **MiX Tagger** | [![Obtainium](https://img.shields.io/badge/Obtainium-Get%20App-7040D4?style=flat-square)](https://apps.obtainium.imranr.dev/redirect?r=obtainium://app/%7B%22id%22%3A%20%22com.mixplorer.addon.tagger%22%2C%22url%22%3A%20%22https%3A%2F%2Fgithub.com%2FnOneCode4u%2Fmixplorer-google-drive%22%2C%22author%22%3A%20%22nOneCode4u%22%2C%22name%22%3A%20%22MiX%20Tagger%22%2C%22additionalSettings%22%3A%20%22%7B%5C%22includePrereleases%5C%22%3Afalse%2C%5C%22fallbackToOlderReleases%5C%22%3Atrue%2C%5C%22filterReleaseTitlesByRegEx%5C%22%3A%5C%22Tagger%5C%22%2C%5C%22filterReleaseNotesByRegEx%5C%22%3A%5C%22%5C%22%2C%5C%22verifyLatestTag%5C%22%3Afalse%2C%5C%22sortMethodChoice%5C%22%3A%5C%22date%5C%22%2C%5C%22useLatestAssetDateAsReleaseDate%5C%22%3Afalse%2C%5C%22releaseTitleAsVersion%5C%22%3Afalse%2C%5C%22trackOnly%5C%22%3Afalse%2C%5C%22versionExtractionRegEx%5C%22%3A%5C%22%5C%22%2C%5C%22matchGroupToUse%5C%22%3A%5C%22%5C%22%2C%5C%22versionDetection%5C%22%3Atrue%2C%5C%22releaseDateAsVersion%5C%22%3Afalse%2C%5C%22useVersionCodeAsOSVersion%5C%22%3Afalse%2C%5C%22apkFilterRegEx%5C%22%3A%5C%22%5C%22%2C%5C%22invertAPKFilter%5C%22%3Afalse%2C%5C%22autoApkFilterByArch%5C%22%3Atrue%2C%5C%22appName%5C%22%3A%5C%22MiX%20Tagger%5C%22%2C%5C%22appAuthor%5C%22%3A%5C%22nOneCode4u%5C%22%2C%5C%22shizukuPretendToBeGooglePlay%5C%22%3Atrue%2C%5C%22allowInsecure%5C%22%3Atrue%2C%5C%22exemptFromBackgroundUpdates%5C%22%3Afalse%2C%5C%22skipUpdateNotifications%5C%22%3Afalse%2C%5C%22about%5C%22%3A%5C%22Audio%20tag%20editor%20add-on%20%E2%80%94%20view%20and%20edit%20ID3v1%2C%20ID3v2%2C%20Vorbis%20Comment%2C%20APEv2%20and%20other%20tag%20formats%20for%20MP3%2C%20FLAC%2C%20OGG%2C%20M4A%2C%20OPUS%20and%20more.%20Supports%20batch%20editing%20and%20artwork.%20Requires%20MiXplorer.%5C%22%2C%5C%22refreshBeforeDownload%5C%22%3Atrue%2C%5C%22includeZips%5C%22%3Afalse%2C%5C%22zippedApkFilterRegEx%5C%22%3A%5C%22%5C%22%7D%22%2C%22overrideSource%22%3A%20%22GitHub%22%2C%22allowIdChange%22%3A%20true%7D) |
 
-
 > Tapping a button on your Android device opens Obtainium pre-filled for that app. The correct APK for your device's CPU is selected automatically.
 
 ---
 
 ## Why This Repository Exists?
-
-[![Python](https://img.shields.io/badge/Automation-Python-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://www.python.org/)
 
 MiXplorer and its add-ons are distributed via the [XDA forum thread](https://xdaforums.com/t/app-2-3-mixplorer-v6-x-released-fully-featured-file-manager.1523691/) and a private Google Drive folder. While the apps are excellent, their distribution has practical limitations:
 
@@ -87,7 +77,7 @@ This repository solves all of these problems by mirroring the official releases 
 - All APKs hosted here are original and completely unmodified. No patches, cracks, or alterations of any kind.
 - This is an **unofficial mirror** maintained by an independent contributor. It is not affiliated with, endorsed by, or sponsored by H. Parsa or the MiXplorer project.
 - If the developer requests removal of any content, it will be done promptly.
-- For official support, feature requests, or to thank the developer, visit the [official website](https://mixplorer.com/) or the [XDA thread](https://xdaforums.com/t/app-2-3-mixplorer-v6-x-released-fully-featured-file-manager.1523691/).
+- For official support, feature requests, or to thank the developer, visit the [XDA thread](https://xdaforums.com/t/app-2-3-mixplorer-v6-x-released-fully-featured-file-manager.1523691/).
 
 ---
 
@@ -97,19 +87,12 @@ All applications in this repository are designed, developed, and maintained sole
 
 This repository provides mirroring as a convenience service. It does not claim ownership, authorship, or affiliation with any of the mirrored applications.
 
-[![XDA Profile](https://img.shields.io/badge/XDA-H.%20Parsa-EA7100?style=flat-square&logo=xda-developers&logoColor=white)](https://xdaforums.com/m/hootan-parsa.3515296/)
-[![XDA Thread](https://img.shields.io/badge/XDA-Official%20Thread-EA7100?style=flat-square&logo=xda-developers&logoColor=white)](https://xdaforums.com/t/app-2-3-mixplorer-v6-x-released-fully-featured-file-manager.1523691/)
-[![Google Drive](https://img.shields.io/badge/Google%20Drive-Source-4285F4?style=flat-square&logo=googledrive&logoColor=white)](https://drive.google.com/drive/folders/1BfeK39boriHy-9q76eXLLqbCwfV17-Gv)
-[![Website](https://img.shields.io/badge/Website-mixplorer.com-0A66C2?style=flat-square&logo=googlechrome&logoColor=white)](https://mixplorer.com/)
+- **Developer:** [H. Parsa](https://xdaforums.com/m/hootan-parsa.3515296/) on XDA Forums
+- **Official source:** [XDA Forum Thread](https://xdaforums.com/t/app-2-3-mixplorer-v6-x-released-fully-featured-file-manager.1523691/)
+- **Original distribution:** [Google Drive](https://drive.google.com/drive/folders/1BfeK39boriHy-9q76eXLLqbCwfV17-Gv)
 
 ---
-[![Stars](https://img.shields.io/github/stars/nOneCode4u/mixplorer-google-drive?style=for-the-badge&logo=github&color=FFD700)](https://github.com/nOneCode4u/mixplorer-google-drive/stargazers)
-[![Forks](https://img.shields.io/github/forks/nOneCode4u/mixplorer-google-drive?style=for-the-badge&logo=github&color=FF8C00)](https://github.com/nOneCode4u/mixplorer-google-drive/network/members)
-[![License](https://img.shields.io/github/license/nOneCode4u/mixplorer-google-drive?style=for-the-badge&color=blue)](https://github.com/nOneCode4u/mixplorer-google-drive/blob/main/LICENSE)
 
----
 ## Star History
 
 [![Star History Chart](https://api.star-history.com/svg?repos=nOneCode4u/mixplorer-google-drive&type=Date)](https://star-history.com/#nOneCode4u/mixplorer-google-drive&Date)
-
-
