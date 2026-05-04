@@ -47,9 +47,7 @@ All APKs are original, unmodified releases published by the developer.
 
 ## Get it on Obtainium
 
-<a href="https://github.com/nOneCode4u/mixplorer-google-drive">
-  <img src="https://github.com/ImranR98/Obtainium/blob/main/assets/graphics/badge_obtainium.png?raw=true" height="120" alt="Get it on Obtainium">
-</a>
+[![Get it on Obtainium](https://github.com/ImranR98/Obtainium/blob/main/assets/graphics/badge_obtainium.png?raw=true)](https://github.com/nOneCode4u/mixplorer-google-drive)
 
 [Obtainium](https://github.com/ImranR98/Obtainium) tracks GitHub releases and updates your apps — no Play Store required.
 
