@@ -1,4 +1,6 @@
-# MiXplorer · Google Drive Mirror
+[![Python](https://img.shields.io/badge/Automation-Python-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://www.python.org/)
+
+# MiXplorer · Google Drive Mirror 
 
 > Mirror of **[MiXplorer](https://mixplorer.com/)** and all official add-ons by [H. Parsa](https://xdaforums.com/m/hootan-parsa.3515296/), sourced from the developer's Google Drive. Updated daily.
 
@@ -6,22 +8,17 @@
 [![Latest Release](https://img.shields.io/github/v/release/nOneCode4u/mixplorer-google-drive?style=for-the-badge&logo=github&color=0969da&label=Latest)](https://github.com/nOneCode4u/mixplorer-google-drive/releases/latest)
 [![Daily Update](https://img.shields.io/github/actions/workflow/status/nOneCode4u/mixplorer-google-drive/daily_update.yml?style=for-the-badge&label=Daily%20Update&logo=githubactions&logoColor=white)](https://github.com/nOneCode4u/mixplorer-google-drive/actions)
 
-[![Stars](https://img.shields.io/github/stars/nOneCode4u/mixplorer-google-drive?style=for-the-badge&logo=github&color=FFD700)](https://github.com/nOneCode4u/mixplorer-google-drive/stargazers)
-[![Forks](https://img.shields.io/github/forks/nOneCode4u/mixplorer-google-drive?style=for-the-badge&logo=github&color=FF8C00)](https://github.com/nOneCode4u/mixplorer-google-drive/network/members)
-[![License](https://img.shields.io/github/license/nOneCode4u/mixplorer-google-drive?style=for-the-badge&color=blue)](https://github.com/nOneCode4u/mixplorer-google-drive/blob/main/LICENSE)
-
-[![Android](https://img.shields.io/badge/Platform-Android-3DDC84?style=for-the-badge&logo=android&logoColor=white)](https://www.android.com/)
-[![Python](https://img.shields.io/badge/Automation-Python-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://www.python.org/)
-[![Google Drive](https://img.shields.io/badge/Source-Google%20Drive-4285F4?style=for-the-badge&logo=googledrive&logoColor=white)](https://drive.google.com/drive/folders/1BfeK39boriHy-9q76eXLLqbCwfV17-Gv)
-[![Unofficial Mirror](https://img.shields.io/badge/Type-Unofficial%20Mirror-orange?style=for-the-badge)](https://github.com/nOneCode4u)
-[![No Ads](https://img.shields.io/badge/Ads-None-success?style=for-the-badge&logo=adblock)](https://mixplorer.com/)
-[![Open Source](https://img.shields.io/badge/Open%20Source-Yes-0d1117?style=for-the-badge&logo=opensourceinitiative&logoColor=3DA639)](https://github.com/nOneCode4u/mixplorer-google-drive)
-
 ---
 
 ## Available Apps
 
 All APKs are original, unmodified releases published by the developer.
+
+[![Android](https://img.shields.io/badge/Platform-Android-3DDC84?style=for-the-badge&logo=android&logoColor=white)](https://www.android.com/)
+[![Google Drive](https://img.shields.io/badge/Source-Google%20Drive-4285F4?style=for-the-badge&logo=googledrive&logoColor=white)](https://drive.google.com/drive/folders/1BfeK39boriHy-9q76eXLLqbCwfV17-Gv)
+[![Unofficial Mirror](https://img.shields.io/badge/Type-Unofficial%20Mirror-orange?style=for-the-badge)](https://github.com/nOneCode4u)
+[![No Ads](https://img.shields.io/badge/Ads-None-success?style=for-the-badge&logo=adblock)](https://mixplorer.com/)
+[![Open Source](https://img.shields.io/badge/Open%20Source-Yes-0d1117?style=for-the-badge&logo=opensourceinitiative&logoColor=3DA639)](https://github.com/nOneCode4u/mixplorer-google-drive)
 
 | App | Description | Releases |
 |-----|-------------|----------|
@@ -49,8 +46,6 @@ All APKs are original, unmodified releases published by the developer.
 **Quick rule:** If unsure, download the **`-arm64`** variant.
 
 ---
-
-## Get it on Obtainium
 
 [![Get it on Obtainium](https://github.com/ImranR98/Obtainium/blob/main/assets/graphics/badge_obtainium.png?raw=true)](https://github.com/ImranR98/Obtainium)
 
@@ -113,7 +108,13 @@ This repository provides mirroring as a convenience service. It does not claim o
 [![Website](https://img.shields.io/badge/Website-mixplorer.com-0A66C2?style=flat-square&logo=googlechrome&logoColor=white)](https://mixplorer.com/)
 
 ---
+[![Stars](https://img.shields.io/github/stars/nOneCode4u/mixplorer-google-drive?style=for-the-badge&logo=github&color=FFD700)](https://github.com/nOneCode4u/mixplorer-google-drive/stargazers)
+[![Forks](https://img.shields.io/github/forks/nOneCode4u/mixplorer-google-drive?style=for-the-badge&logo=github&color=FF8C00)](https://github.com/nOneCode4u/mixplorer-google-drive/network/members)
+[![License](https://img.shields.io/github/license/nOneCode4u/mixplorer-google-drive?style=for-the-badge&color=blue)](https://github.com/nOneCode4u/mixplorer-google-drive/blob/main/LICENSE)
+---
 
 ## Star History
 
 [![Star History Chart](https://api.star-history.com/svg?repos=nOneCode4u/mixplorer-google-drive&type=Date)](https://star-history.com/#nOneCode4u/mixplorer-google-drive&Date)
+
+
