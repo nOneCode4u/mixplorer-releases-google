@@ -1,5 +1,3 @@
-[![Python](https://img.shields.io/badge/Automation-Python-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://www.python.org/)
-
 # MiXplorer · Google Drive Mirror 
 
 > Mirror of **[MiXplorer](https://mixplorer.com/)** and all official add-ons by [H. Parsa](https://xdaforums.com/m/hootan-parsa.3515296/), sourced from the developer's Google Drive. Updated daily.
@@ -71,6 +69,8 @@ All APKs are original, unmodified releases published by the developer.
 
 ## Why This Repository Exists?
 
+[![Python](https://img.shields.io/badge/Automation-Python-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://www.python.org/)
+
 MiXplorer and its add-ons are distributed via the [XDA forum thread](https://xdaforums.com/t/app-2-3-mixplorer-v6-x-released-fully-featured-file-manager.1523691/) and a private Google Drive folder. While the apps are excellent, their distribution has practical limitations:
 
 - The XDA thread requires manual checking for new versions.
@@ -97,11 +97,6 @@ All applications in this repository are designed, developed, and maintained sole
 
 This repository provides mirroring as a convenience service. It does not claim ownership, authorship, or affiliation with any of the mirrored applications.
 
-- **Developer:** [H. Parsa](https://xdaforums.com/m/hootan-parsa.3515296/) on XDA Forums [![XDA Profile](https://img.shields.io/badge/XDA-H.%20Parsa-EA7100?style=flat-square&logo=xda-developers&logoColor=white)](https://xdaforums.com/m/hootan-parsa.3515296/)
-- **Official website:** [mixplorer.com](https://mixplorer.com/) [![Website](https://img.shields.io/badge/Website-mixplorer.com-0A66C2?style=flat-square&logo=googlechrome&logoColor=white)](https://mixplorer.com/)
-- **Official source:** [XDA Forum Thread](https://xdaforums.com/t/app-2-3-mixplorer-v6-x-released-fully-featured-file-manager.1523691/) [![XDA Thread](https://img.shields.io/badge/XDA-Official%20Thread-EA7100?style=flat-square&logo=xda-developers&logoColor=white)](https://xdaforums.com/t/app-2-3-mixplorer-v6-x-released-fully-featured-file-manager.1523691/)
-- **Original distribution:** [Google Drive](https://drive.google.com/drive/folders/1BfeK39boriHy-9q76eXLLqbCwfV17-Gv) [![Google Drive](https://img.shields.io/badge/Google%20Drive-Source-4285F4?style=flat-square&logo=googledrive&logoColor=white)](https://drive.google.com/drive/folders/1BfeK39boriHy-9q76eXLLqbCwfV17-Gv)
-
 [![XDA Profile](https://img.shields.io/badge/XDA-H.%20Parsa-EA7100?style=flat-square&logo=xda-developers&logoColor=white)](https://xdaforums.com/m/hootan-parsa.3515296/)
 [![XDA Thread](https://img.shields.io/badge/XDA-Official%20Thread-EA7100?style=flat-square&logo=xda-developers&logoColor=white)](https://xdaforums.com/t/app-2-3-mixplorer-v6-x-released-fully-featured-file-manager.1523691/)
 [![Google Drive](https://img.shields.io/badge/Google%20Drive-Source-4285F4?style=flat-square&logo=googledrive&logoColor=white)](https://drive.google.com/drive/folders/1BfeK39boriHy-9q76eXLLqbCwfV17-Gv)
@@ -111,8 +106,8 @@ This repository provides mirroring as a convenience service. It does not claim o
 [![Stars](https://img.shields.io/github/stars/nOneCode4u/mixplorer-google-drive?style=for-the-badge&logo=github&color=FFD700)](https://github.com/nOneCode4u/mixplorer-google-drive/stargazers)
 [![Forks](https://img.shields.io/github/forks/nOneCode4u/mixplorer-google-drive?style=for-the-badge&logo=github&color=FF8C00)](https://github.com/nOneCode4u/mixplorer-google-drive/network/members)
 [![License](https://img.shields.io/github/license/nOneCode4u/mixplorer-google-drive?style=for-the-badge&color=blue)](https://github.com/nOneCode4u/mixplorer-google-drive/blob/main/LICENSE)
----
 
+---
 ## Star History
 
 [![Star History Chart](https://api.star-history.com/svg?repos=nOneCode4u/mixplorer-google-drive&type=Date)](https://star-history.com/#nOneCode4u/mixplorer-google-drive&Date)
