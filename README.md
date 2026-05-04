@@ -45,7 +45,11 @@ All APKs are original, unmodified releases published by the developer.
 
 ---
 
-[![Get it on Obtainium](https://github.com/ImranR98/Obtainium/blob/main/assets/graphics/badge_obtainium.png?raw=true)](https://github.com/nOneCode4u/mixplorer-google-drive)
+## Get it on Obtainium
+
+<a href="https://github.com/nOneCode4u/mixplorer-google-drive">
+  <img src="https://github.com/ImranR98/Obtainium/blob/main/assets/graphics/badge_obtainium.png?raw=true" height="120" alt="Get it on Obtainium">
+</a>
 
 [Obtainium](https://github.com/ImranR98/Obtainium) tracks GitHub releases and updates your apps — no Play Store required.
 
@@ -103,12 +107,11 @@ This repository provides mirroring as a convenience service. It does not claim o
 [![Website](https://img.shields.io/badge/Website-mixplorer.com-0A66C2?style=flat-square&logo=googlechrome&logoColor=white)](https://mixplorer.com/)
 
 ---
+## Star History
+
 [![Stars](https://img.shields.io/github/stars/nOneCode4u/mixplorer-google-drive?style=for-the-badge&logo=github&color=FFD700)](https://github.com/nOneCode4u/mixplorer-google-drive/stargazers)
 [![Forks](https://img.shields.io/github/forks/nOneCode4u/mixplorer-google-drive?style=for-the-badge&logo=github&color=FF8C00)](https://github.com/nOneCode4u/mixplorer-google-drive/network/members)
 [![License](https://img.shields.io/github/license/nOneCode4u/mixplorer-google-drive?style=for-the-badge&color=blue)](https://github.com/nOneCode4u/mixplorer-google-drive/blob/main/LICENSE)
-
----
-## Star History
 
 [![Star History Chart](https://api.star-history.com/svg?repos=nOneCode4u/mixplorer-google-drive&type=Date)](https://star-history.com/#nOneCode4u/mixplorer-google-drive&Date)
 
