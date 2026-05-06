@@ -123,6 +123,7 @@ class ReleaseManager:
         print(f"::notice title=New Release Created::{release['html_url']}")
         return release
 
+
     def upload_asset(self, release_id: int, file_path: Path) -> dict:
         """
         Upload *file_path* as an asset to *release_id*.

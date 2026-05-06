@@ -39,7 +39,6 @@ GDRIVE_API_KEY = os.environ["GDRIVE_API_KEY"]
 GH_TOKEN       = os.environ["GH_TOKEN"]
 GH_REPO        = os.environ["GH_REPO"]
 ROOT_FOLDER_ID = os.environ.get("GDRIVE_ROOT_FOLDER_ID", "1BfeK39boriHy-9q76eXLLqbCwfV17-Gv")
-FORCE_ALL      = os.environ.get("FORCE_ALL",  "false").lower() == "true"
 DEBUG_MODE     = os.environ.get("DEBUG_MODE", "false").lower() == "true"
 
 VERSIONS_FILE        = Path("data/released_versions.json")
@@ -254,7 +253,7 @@ def process_app(
     version_name = primary_version
 
     cached = released_versions.get(app_name, {})
-    if not FORCE_ALL and cached.get("version_name") == version_name:
+    if cached.get("version_name") == version_name:
         log.info(f"  {app_name} v{version_name} already released — nothing to do.")
         return True, None
 
@@ -291,16 +290,12 @@ def process_app(
     release_body = build_release_body(app_name, version_name, descriptions, changelog)
 
     existing = rm.get_release_by_tag(tag)
-    if existing and not FORCE_ALL:
+    if existing:
         log.info(f"  Release {tag} already exists on GitHub — skipping.")
         return True, None
 
-    if existing and FORCE_ALL:
-        release_id = existing["id"]
-        log.info(f"  FORCE_ALL: reusing existing release id={release_id}")
-    else:
-        release    = rm.create_release(tag, release_name, release_body)
-        release_id = release["id"]
+    release    = rm.create_release(tag, release_name, release_body)
+    release_id = release["id"]
 
     for file_path in final_files:
         try:
@@ -327,7 +322,6 @@ def main() -> None:
     log.info("=" * 60)
     log.info("APK Update Pipeline — Start")
     log.info(f"  Repository : {GH_REPO}")
-    log.info(f"  Force all  : {FORCE_ALL}")
     log.info(f"  Debug      : {DEBUG_MODE}")
     log.info("=" * 60)
 
