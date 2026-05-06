@@ -5,10 +5,6 @@ on:
     - cron: '0 6 * * *'
   workflow_dispatch:
     inputs:
-      force_all:
-        description: 'Force re-process all apps (ignore version cache)'
-        type: boolean
-        default: false
       debug_mode:
         description: 'Enable verbose debug logging'
         type: boolean
@@ -121,7 +117,6 @@ jobs:
           GH_TOKEN:               ${{ secrets.GITHUB_TOKEN }}
           GH_REPO:                ${{ github.repository }}
           GDRIVE_ROOT_FOLDER_ID:  "1BfeK39boriHy-9q76eXLLqbCwfV17-Gv"
-          FORCE_ALL:              ${{ github.event.inputs.force_all  || 'false' }}
           DEBUG_MODE:             ${{ github.event.inputs.debug_mode || 'false' }}
         run: python3 scripts/main.py
 
