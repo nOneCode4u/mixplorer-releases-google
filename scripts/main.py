@@ -41,24 +41,9 @@ GH_REPO        = os.environ["GH_REPO"]
 ROOT_FOLDER_ID = os.environ.get("GDRIVE_ROOT_FOLDER_ID", "1BfeK39boriHy-9q76eXLLqbCwfV17-Gv")
 DEBUG_MODE     = os.environ.get("DEBUG_MODE", "false").lower() == "true"
 
-VERSIONS_FILE        = Path("data/released_versions.json")
-MANUAL_VERSIONS_FILE = Path("MANUAL_VERSIONS.md")
-DESCRIPTIONS_FILE    = Path("config/descriptions.json")
+MANUAL_DESCRIPTIONS_FILE    = Path("config/descriptions.json")
 
 
-def load_json(path: Path, default):
-    if path.exists():
-        content = path.read_text(encoding="utf-8").strip()
-        if not content:
-            return default
-        return json.loads(content)
-    return default
-
-
-def save_json(path: Path, data) -> None:
-    path.parent.mkdir(parents=True, exist_ok=True)
-    with open(path, "w", encoding="utf-8") as fh:
-        json.dump(data, fh, indent=2, ensure_ascii=False)
 
 
 def load_manual_overrides() -> dict[str, dict]:
@@ -172,7 +157,7 @@ def build_release_body(app_name: str, version_name: str, descriptions: dict, cha
 def process_app(
     *,
     drive, rm, notifier, folder_info, app_name,
-    released_versions, descriptions, manual_overrides, work_dir,
+    descriptions, manual_overrides, work_dir,
 ) -> tuple[bool, Optional[dict]]:
 
     folder_id = folder_info["id"]
@@ -252,12 +237,28 @@ def process_app(
 
     version_name = primary_version
 
-    cached = released_versions.get(app_name, {})
-    if cached.get("version_name") == version_name:
-        log.info(f"  {app_name} v{version_name} already released — nothing to do.")
-        return True, None
+    # ── Check what actually exists on GitHub right now ──────────────────
+    tag          = f"{app_name}_v{version_name}"
+    existing     = rm.get_release_by_tag(tag)
+    missing      = set()  # assets that need uploading; empty means all
 
-    log.info(f"  New version detected: {app_name} v{version_name}")
+    if existing:
+        existing_assets = rm.get_release_assets(existing["id"])
+        # Build the expected final filenames so we can compare
+        renamed_preview = finalize_filenames(app_name, apk_infos)
+        expected_names  = {new_name for _, new_name in renamed_preview}
+        missing         = expected_names - existing_assets
+
+        if not missing:
+            log.info(f"  {app_name} v{version_name} fully released — nothing to do.")
+            return True, None
+
+        log.info(
+            f"  {app_name} v{version_name}: release exists but "
+            f"{len(missing)} asset(s) missing — will upload: {missing}"
+        )
+    else:
+        log.info(f"  New version detected: {app_name} v{version_name}")
 
     renamed_pairs = finalize_filenames(app_name, apk_infos)
     final_files: list[Path] = []
@@ -289,15 +290,18 @@ def process_app(
     tag          = f"{app_name}_v{version_name}"
     release_body = build_release_body(app_name, version_name, descriptions, changelog)
 
-    existing = rm.get_release_by_tag(tag)
     if existing:
-        log.info(f"  Release {tag} already exists on GitHub — skipping.")
-        return True, None
-
-    release    = rm.create_release(tag, release_name, release_body)
-    release_id = release["id"]
+        release_id = existing["id"]
+        log.info(f"  Uploading missing assets to existing release {tag}")
+    else:
+        release    = rm.create_release(tag, release_name, release_body)
+        release_id = release["id"]
 
     for file_path in final_files:
+        # Skip assets that already exist on the release (partial-release recovery)
+        if existing and file_path.name not in missing:
+            log.info(f"  Asset already present, skipping: {file_path.name}")
+            continue
         try:
             rm.upload_asset(release_id, file_path)
         except Exception as exc:
@@ -334,13 +338,9 @@ def main() -> None:
     drive    = DriveClient(GDRIVE_API_KEY)
     rm       = ReleaseManager(GH_TOKEN, GH_REPO)
     notifier = Notifier(rm)
-
-    released_versions = load_json(VERSIONS_FILE, {})
     descriptions      = load_json(DESCRIPTIONS_FILE, {})
     manual_overrides  = load_manual_overrides()
     rename_map        = load_rename_map()
-
-    log.info(f"Previously released: {list(released_versions.keys())}")
 
     try:
         subfolders = drive.list_subfolders(ROOT_FOLDER_ID)
@@ -385,7 +385,6 @@ def main() -> None:
                     notifier          = notifier,
                     folder_info       = folder_info,
                     app_name          = app_name,
-                    released_versions = released_versions,
                     descriptions      = descriptions,
                     manual_overrides  = manual_overrides,
                     work_dir          = work_dir,
@@ -406,7 +405,6 @@ def main() -> None:
                 break
 
             if ok and release_info:
-                released_versions[app_name] = release_info
                 results[app_name]           = "released"
                 log.info(f"✓ Released: {app_name} v{release_info['version_name']}")
             elif ok:
@@ -417,8 +415,6 @@ def main() -> None:
                 overall_success   = False
                 log.error(f"✗ Failed: {app_name}")
                 break
-
-    save_json(VERSIONS_FILE, released_versions)
 
     released_n = sum(1 for v in results.values() if v == "released")
     skipped_n  = sum(1 for v in results.values() if v == "no_update")

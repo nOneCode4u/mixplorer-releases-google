@@ -177,6 +177,13 @@ class ReleaseManager:
 
     # ── Issues (notifications) ────────────────────────────────────────────
 
+    def get_release_assets(self, release_id: int) -> set[str]:
+        """Return the set of asset filenames currently attached to *release_id*."""
+        resp = self._request("GET", f"releases/{release_id}")
+        resp.raise_for_status()
+        return {a["name"] for a in resp.json().get("assets", [])}
+
+
     def create_issue(
         self,
         title: str,
