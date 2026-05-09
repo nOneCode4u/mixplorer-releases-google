@@ -41,7 +41,8 @@ GH_REPO        = os.environ["GH_REPO"]
 ROOT_FOLDER_ID = os.environ.get("GDRIVE_ROOT_FOLDER_ID", "1BfeK39boriHy-9q76eXLLqbCwfV17-Gv")
 DEBUG_MODE     = os.environ.get("DEBUG_MODE", "false").lower() == "true"
 
-DESCRIPTIONS_FILE           = Path("config/descriptions.json")
+MANUAL_VERSIONS_FILE = Path("MANUAL_VERSIONS.md")
+DESCRIPTIONS_FILE    = Path("config/descriptions.json")
 
 
 def load_json(path: Path, default):
