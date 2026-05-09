@@ -44,6 +44,16 @@ DEBUG_MODE     = os.environ.get("DEBUG_MODE", "false").lower() == "true"
 MANUAL_DESCRIPTIONS_FILE    = Path("config/descriptions.json")
 
 
+def load_json(path: Path, default):
+    if path.exists():
+        content = path.read_text(encoding="utf-8").strip()
+        if not content:
+            return default
+        return json.loads(content)
+    return default
+
+
+
 
 
 def load_manual_overrides() -> dict[str, dict]:
