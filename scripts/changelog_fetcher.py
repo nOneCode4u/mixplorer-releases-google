@@ -231,12 +231,13 @@ def _parse_xda_post(html: str, version_name: str) -> Optional[str]:
 
 # ── Public API ────────────────────────────────────────────────────────────────
 
-def fetch_changelog(apk_path: Path, version_name: str, app_name: str = "MiXplorer") -> Optional[str]:
+def fetch_changelog(apk_path: Optional[Path], version_name: str, app_name: str = "MiXplorer") -> Optional[str]:
     """
     Fetch changelog for *app_name* at *version_name*.
 
     Returns a Markdown bullet list string on success, None if unavailable.
     Callers must treat None as "omit changelog section".
+    apk_path may be None — APK asset search is skipped, network sources still tried.
     """
     log.info(f"Fetching changelog: {app_name} v{version_name}")
 

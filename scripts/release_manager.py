@@ -177,6 +177,17 @@ class ReleaseManager:
 
     # ── Issues (notifications) ────────────────────────────────────────────
 
+    def update_release_body(self, release_id: int, body: str) -> None:
+        """Update the description (body) of an existing release."""
+        resp = self._request(
+            "PATCH",
+            f"releases/{release_id}",
+            json={"body": body},
+        )
+        resp.raise_for_status()
+        log.info(f"  Release body updated (release_id={release_id})")
+
+
     def get_release_assets(self, release_id: int) -> set[str]:
         """Return the set of asset filenames currently attached to *release_id*."""
         resp = self._request("GET", f"releases/{release_id}")

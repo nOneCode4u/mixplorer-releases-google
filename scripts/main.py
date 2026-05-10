@@ -145,6 +145,19 @@ def _get_obtainium_url(app_name: str, display_name: str) -> str:
     return ("https://apps.obtainium.imranr.dev/redirect?r=obtainium://app/"
             + urllib.parse.quote(_json.dumps(cfg, separators=(",", ":")), safe=""))
 
+
+def _body_is_valid(body: str) -> bool:
+    """
+    Check that a release body contains all required sections.
+    Returns False if any required marker is missing — triggering a body update.
+    """
+    required_markers = [
+        "Obtainium-Get%20App",       # Obtainium badge
+        "Mirrored from the developer",  # Footer
+    ]
+    return all(marker in body for marker in required_markers)
+
+
 def build_release_body(app_name: str, version_name: str, descriptions: dict, changelog: Optional[str]) -> str:
     info          = descriptions.get(app_name, {})
     display       = info.get("display_name", get_display_name(app_name))
@@ -261,8 +274,12 @@ def process_app(
         missing         = expected_names - existing_assets
 
         if not missing:
-            log.info(f"  {app_name} v{version_name} fully released — nothing to do.")
-            return True, None
+            # Also verify the release description is complete
+            current_body = existing.get("body") or ""
+            if _body_is_valid(current_body):
+                log.info(f"  {app_name} v{version_name} fully released — nothing to do.")
+                return True, None
+            log.info(f"  {app_name} v{version_name}: assets complete but body incomplete — will update")
 
         log.info(
             f"  {app_name} v{version_name}: release exists but "
@@ -270,6 +287,15 @@ def process_app(
         )
     else:
         log.info(f"  New version detected: {app_name} v{version_name}")
+
+    # ── Body-only update: no assets missing, just description incomplete ──
+    # Skip APK download/extract/rename — just rebuild body and update.
+    if existing and not missing:
+        changelog     = fetch_changelog(None, version_name, app_name=app_name)
+        release_body  = build_release_body(app_name, version_name, descriptions, changelog)
+        rm.update_release_body(existing["id"], release_body)
+        log.info(f"  {app_name} v{version_name}: body restored")
+        return True, {"version_name": version_name, "body_updated": True}
 
     renamed_pairs = finalize_filenames(app_name, apk_infos)
     final_files: list[Path] = []
