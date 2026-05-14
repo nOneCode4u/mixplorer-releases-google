@@ -13,7 +13,6 @@
 All APKs are original, unmodified releases published by the developer.
 
 [![Android](https://img.shields.io/badge/Platform-Android-3DDC84?style=for-the-badge&logo=android&logoColor=white)](https://www.android.com/)
-[![Python](https://img.shields.io/badge/Automation-Python-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://www.python.org/)
 [![Google Drive](https://img.shields.io/badge/Source-Google%20Drive-4285F4?style=for-the-badge&logo=googledrive&logoColor=white)](https://drive.google.com/drive/folders/1BfeK39boriHy-9q76eXLLqbCwfV17-Gv)
 [![Unofficial Mirror](https://img.shields.io/badge/Type-Unofficial%20Mirror-orange?style=for-the-badge)](https://github.com/nOneCode4u)
 [![No Ads](https://img.shields.io/badge/Ads-None-success?style=for-the-badge&logo=adblock)](https://mixplorer.com/)
