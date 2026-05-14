@@ -99,11 +99,11 @@ All applications in this repository are designed, developed, and maintained sole
 
 This repository provides mirroring as a convenience service. It does not claim ownership, authorship, or affiliation with any of the mirrored applications.
 
-[![XDA Profile](https://img.shields.io/badge/XDA-H.%20Parsa-EA7100?style=flat-square&logo=xda-developers&logoColor=white)](https://xdaforums.com/m/hootan-parsa.3515296/)
-[![XDA Thread](https://img.shields.io/badge/XDA-Official%20Thread-EA7100?style=flat-square&logo=xda-developers&logoColor=white)](https://xdaforums.com/t/app-2-3-mixplorer-v6-x-released-fully-featured-file-manager.1523691/)
-[![Google Drive](https://img.shields.io/badge/Google%20Drive-Source-4285F4?style=flat-square&logo=googledrive&logoColor=white)](https://drive.google.com/drive/folders/1BfeK39boriHy-9q76eXLLqbCwfV17-Gv)
-[![APKMirror](https://img.shields.io/badge/APKMirror-Source-1A91DA?style=flat-square&logo=android&logoColor=white)](https://www.apkmirror.com/apk/hootan-parsa/)
-[![Website](https://img.shields.io/badge/Website-mixplorer.com-0A66C2?style=flat-square&logo=googlechrome&logoColor=white)](https://mixplorer.com/)
+- [![XDA Profile](https://img.shields.io/badge/XDA-H.%20Parsa-EA7100?style=flat-square&logo=xda-developers&logoColor=white)](https://xdaforums.com/m/hootan-parsa.3515296/)
+- [![XDA Thread](https://img.shields.io/badge/XDA-Official%20Thread-EA7100?style=flat-square&logo=xda-developers&logoColor=white)](https://xdaforums.com/t/app-2-3-mixplorer-v6-x-released-fully-featured-file-manager.1523691/)
+- [![Google Drive](https://img.shields.io/badge/Google%20Drive-Source-4285F4?style=flat-square&logo=googledrive&logoColor=white)](https://drive.google.com/drive/folders/1BfeK39boriHy-9q76eXLLqbCwfV17-Gv)
+- [![APKMirror](https://img.shields.io/badge/APKMirror-Source-1A91DA?style=flat-square&logo=android&logoColor=white)](https://www.apkmirror.com/apk/hootan-parsa/)
+- [![Website](https://img.shields.io/badge/Website-mixplorer.com-0A66C2?style=flat-square&logo=googlechrome&logoColor=white)](https://mixplorer.com/)
 
 ---
 ## Star History
